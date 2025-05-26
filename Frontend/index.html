@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4bb543;
+            --error-color: #ff3333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 25px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: white;
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+        }
+
+        #jobForm {
+            padding: 30px;
+        }
+
+        fieldset {
+            border: none;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        fieldset.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        legend {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        legend i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: var(--accent-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--light-color);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 15px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-container label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+
+        small {
+            display: none;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        small.error {
+            color: var(--error-color);
+            display: block;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .preview-container {
+            padding: 30px;
+            display: none;
+        }
+
+        .preview-container h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .preview-details {
+            background-color: var(--light-color);
+            padding: 25px;
+            border-radius: var(--border-radius);
+        }
+
+        .preview-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .preview-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .preview-item strong {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .file-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .file-link:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+
+        .success-message {
+            background-color: rgba(75, 181, 67, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .progress-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 0;
+        }
+
+        .progress-step.active:not(:last-child)::after {
+            background-color: var(--primary-color);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .progress-step.active .step-number {
+            background-color: var(--primary-color);
+        }
+
+        .step-name {
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
+
+        .progress-step.active .step-name {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                border-radius: 0;
+            }
+            
+            body {
+                padding: 0;
+            }
+            
+            .preview-item strong {
+                min-width: 150px;
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-button {
+            border: 1px dashed var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: rgba(72, 149, 239, 0.05);
+        }
+
+        .file-input-button:hover {
+            background-color: rgba(72, 149, 239, 0.1);
+        }
+
+        .file-input-button i {
+            font-size: 24px;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-list {
+            margin-top: 10px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background-color: rgba(72, 149, 239, 0.05);
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .file-item i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        .file-name {
+            flex-grow: 1;
+            font-size: 14px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+  <header>
+    <h1><i class="fas fa-briefcase"></i> Job Application Form</h1>
+  </header>
+
+  <form id="jobForm" enctype="multipart/form-data">
+    <div class="progress-bar">
+        <div class="progress-step active" data-step="0">
+            <div class="step-number">1</div>
+            <div class="step-name">Personal Info</div>
+        </div>
+        <div class="progress-step" data-step="1">
+            <div class="step-number">2</div>
+            <div class="step-name">Education</div>
+        </div>
+        <div class="progress-step" data-step="2">
+            <div class="step-number">3</div>
+            <div class="step-name">Experience</div>
+        </div>
+        <div class="progress-step" data-step="3">
+            <div class="step-number">4</div>
+            <div class="step-name">Documents</div>
+        </div>
+    </div>
+
+    <fieldset class="active">
+      <legend><i class="fas fa-user"></i> Personal Information</legend>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-signature"></i> Full Name</label>
+          <input type="text" id="name" class="form-control" pattern="[A-Za-z ]{3,30}" title="Full Name must contain only letters and spaces (min 3 characters)." placeholder="Enter name" required>
+          <small id="nameError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please enter a valid name (min 3 characters, letters and spaces only).
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="email" class="form-control" placeholder="example@domain.com" required>
+          <small id="emailError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please enter a valid email address.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+          <input type="tel" id="phone" class="form-control" pattern="[0-9]{10}" title="Enter a valid 10-digit phone number." placeholder="1234567890" maxlength="10" required>
+          <small id="phoneError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please enter a valid 10-digit phone number.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
+          <select id="gender" name="gender" class="form-control" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <small id="genderError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please select a gender.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="dob"><i class="fas fa-birthday-cake"></i> Date of Birth</label>
+          <input type="date" id="dob" class="form-control" min="1950-01-01" max="2005-12-31" title="Enter a valid date between 1950 and 2005." required>
+          <small id="dobError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please enter a valid date of birth (between 1950 and 2005).
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="marital-status"><i class="fas fa-heart"></i> Marital Status</label>
+          <select id="marital-status" class="form-control" required>
+            <option value="">Select</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+          </select>
+          <small id="maritalStatusError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please select your marital status.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="street"><i class="fas fa-map-marker-alt"></i> Address</label>
+          <input type="text" id="street" class="form-control" placeholder="123 Main St" required>
+          <small id="streetError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please enter your street address.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="zipcode"><i class="fas fa-mail-bulk"></i> Postal/ZIP Code</label>
+          <input type="text" id="zipcode" class="form-control" pattern="[0-9]{6}" title="Enter a 5-6 digit postal code." placeholder="560001" maxlength="6" required>
+          <small id="zipcodeError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please enter a valid 5-6 digit postal code.
+          </small>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><i class="fas fa-graduation-cap"></i> Education Details</legend>
+      <div class="form-grid">
+        <div class="form-group">
+          <label><i class="fas fa-file-upload"></i> Highest Qualification Documents (PDF or Image)</label>
+          <div class="file-input-container">
+            <div class="file-input-button">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span>Click to upload files</span>
+              <input type="file" id="qualificationDocs" name="qualificationDocs" class="file-input" accept=".pdf, .jpg, .jpeg, .png" multiple required oninput="validateQualificationDocs(); updateFileList('qualificationDocs', 'qualificationDocsList')">
+            </div>
+          </div>
+          <div id="qualificationDocsList" class="file-list"></div>
+          <small id="qualificationDocsError" class="error">
+            <i class="fas fa-exclamation-circle"></i> At least one PDF, JPG, JPEG, or PNG file smaller than 2 MB is required.
+          </small>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-file-upload"></i> Intermediate Documents (PDF or Image)</label>
+          <div class="file-input-container">
+            <div class="file-input-button">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span>Click to upload files</span>
+              <input type="file" id="interDocs" name="interDocs" class="file-input" accept=".pdf, .jpg, .jpeg, .png" multiple required oninput="validateInterDocs(); updateFileList('interDocs', 'interDocsList')">
+            </div>
+          </div>
+          <div id="interDocsList" class="file-list"></div>
+          <small id="interDocsError" class="error">
+            <i class="fas fa-exclamation-circle"></i> At least one PDF, JPG, JPEG, or PNG file smaller than 2 MB is required.
+          </small>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-file-upload"></i> SSC Documents (PDF or Image)</label>
+          <div class="file-input-container">
+            <div class="file-input-button">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span>Click to upload files</span>
+              <input type="file" id="sscDocs" name="sscDocs" class="file-input" accept=".pdf, .jpg, .jpeg, .png" multiple required oninput="validateSSCDocs(); updateFileList('sscDocs', 'sscDocsList')">
+            </div>
+          </div>
+          <div id="sscDocsList" class="file-list"></div>
+          <small id="sscDocsError" class="error">
+            <i class="fas fa-exclamation-circle"></i> At least one PDF, JPG, JPEG, or PNG file smaller than 2 MB is required.
+          </small>
+        </div>
+      </div>
+    </fieldset>
+
+<fieldset>
+  <legend><i class="fas fa-briefcase"></i> Work Experience</legend>
+  <div class="form-grid">
+    <div class="form-group" style="grid-column: 1 / -1;">
+      <div class="checkbox-container">
+        <input type="checkbox" id="hasWorkExperience">
+        <label for="hasWorkExperience">I have previous work experience</label>
+      </div>
+    </div>
+    <div id="workExperienceFields" style="display: none;">
+      <div class="form-group">
+        <label for="company"><i class="fas fa-building"></i> Most Recent Employer</label>
+        <input type="text" id="company" class="form-control" placeholder="Enter full company name" 
+               oninput="validateCompany()" minlength="2" pattern="[A-Za-z ]+" 
+               title="Company name must contain only letters and spaces (min 2 characters).">
+        <small id="companyError" class="error">
+          <i class="fas fa-exclamation-circle"></i> Company name must contain only letters and spaces (min 2 characters).
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="role"><i class="fas fa-user-tie"></i> Job Title</label>
+        <input type="text" id="role" class="form-control" placeholder="Enter job title" 
+               oninput="validateRole()" minlength="2" pattern="[A-Za-z ]+" 
+               title="Job title must contain only letters and spaces (min 2 characters).">
+        <small id="roleError" class="error">
+          <i class="fas fa-exclamation-circle"></i> Job title must contain only letters and spaces (min 2 characters).
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="startDate"><i class="fas fa-calendar-plus"></i> Start Date</label>
+        <input type="date" id="startDate" class="form-control" min="1970-01-01" max="2025-05-26" oninput="validateDates()">
+        <small id="startDateError" class="error">
+          <i class="fas fa-exclamation-circle"></i> Please enter a valid start date (not in the future).
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="endDate"><i class="fas fa-calendar-minus"></i> End Date</label>
+        <input type="date" id="endDate" class="form-control" min="1970-01-01" max="2025-05-26" oninput="validateDates()">
+        <small id="endDateError" class="error">
+          <i class="fas fa-exclamation-circle"></i> End date must be after start date and not in the future.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="employmentType"><i class="fas fa-clock"></i> Employment Type</label>
+        <select id="employmentType" class="form-control" oninput="validateEmploymentType()">
+          <option value="">Select Employment Type</option>
+          <option value="Full-Time">Full-Time</option>
+          <option value="Part-Time">Part-Time</option>
+          <option value="Contract">Contract</option>
+          <option value="Internship">Internship</option>
+        </select>
+        <small id="employmentTypeError" class="error">
+          <i class="fas fa-exclamation-circle"></i> Please select an employment type.
+        </small>
+      </div>
+      <div class="form-group" style="grid-column: 1 / -1;">
+        <label for="responsibilities"><i class="fas fa-tasks"></i> Key Responsibilities</label>
+        <textarea id="responsibilities" class="form-control" rows="4" placeholder="Describe your responsibilities (min 10, max 500 characters)" 
+                  oninput="validateResponsibilities()" maxlength="500"></textarea>
+        <small id="responsibilitiesError" class="error">
+          <i class="fas fa-exclamation-circle"></i> Responsibilities must be 10-500 characters.
+        </small>
+        <small id="responsibilitiesCounter" class="counter">0/500 characters</small>
+      </div>
+    </div>
+    <div id="noExperienceMessage" style="grid-column: 1 / -1;">
+      <p><i class="fas fa-info-circle"></i> No work experience selected. You can proceed to the next section.</p>
+    </div>
+  </div>
+</fieldset>
+
+    <fieldset>
+      <legend><i class="fas fa-file-alt"></i> Final Documentation</legend>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="currentLocation"><i class="fas fa-map-pin"></i> Current Location</label>
+          <select id="currentLocation" class="form-control" required oninput="validateCurrentLocation()">
+            <option value="">Select Current Location</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Bangalore">Bangalore</option>
+          </select>
+          <small id="currentLocationError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please select your current location.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="preferredLocation"><i class="fas fa-map-marked-alt"></i> Preferred Location</label>
+          <select id="preferredLocation" class="form-control" required oninput="validatePreferredLocation()">
+            <option value="">Select Preferred Location</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Bangalore">Bangalore</option>
+          </select>
+          <small id="preferredLocationError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please select your preferred location.
+          </small>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-file-pdf"></i> Upload Resume (PDF)</label>
+          <div class="file-input-container">
+            <div class="file-input-button">
+              <i class="fas fa-file-upload"></i>
+              <span>Click to upload PDF resume</span>
+              <input type="file" id="resume" name="resume" class="file-input" accept=".pdf" required oninput="validateResume(); updateFileList('resume', 'resumeList')">
+            </div>
+          </div>
+          <div id="resumeList" class="file-list"></div>
+          <small id="resumeError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please upload a PDF file smaller than 2 MB.
+          </small>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-id-card"></i> Upload ID Proof (PDF or Image)</label>
+          <div class="file-input-container">
+            <div class="file-input-button">
+              <i class="fas fa-file-upload"></i>
+              <span>Click to upload ID proof</span>
+              <input type="file" id="idProof" name="idProof" class="file-input" accept=".pdf, .jpg, .jpeg, .png" required oninput="validateIdProof(); updateFileList('idProof', 'idProofList')">
+            </div>
+          </div>
+          <div id="idProofList" class="file-list"></div>
+          <small id="idProofError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Please upload a file (PDF, JPG, JPEG, PNG) smaller than 2 MB.
+          </small>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-certificate"></i> Upload Certificates (Multiple Files Allowed)</label>
+          <div class="file-input-container">
+            <div class="file-input-button">
+              <i class="fas fa-file-upload"></i>
+              <span>Click to upload certificates</span>
+              <input type="file" id="certificates" name="certificates" class="file-input" accept=".pdf, .jpg, .jpeg, .png" multiple oninput="validateCertificates(); updateFileList('certificates', 'certificatesList')">
+            </div>
+          </div>
+          <div id="certificatesList" class="file-list"></div>
+          <small id="certificatesError" class="error">
+            <i class="fas fa-exclamation-circle"></i> Each file should be smaller than 2 MB.
+          </small>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="navigation-buttons">
+      <button type="button" id="prevBtn" class="btn btn-secondary" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+      <button type="button" id="nextBtn" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Next</button>
+    </div>
+  </form>
+
+  <div id="previewSection" class="preview-container">
+    <h3><i class="fas fa-file-alt"></i> Application Preview</h3>
+    <div class="preview-details" id="previewDetails"></div>
+    <div class="navigation-buttons">
+      <button class="btn btn-outline edit-btn" onclick="editForm()"><i class="fas fa-edit"></i> Edit</button>
+      <button class="btn btn-primary" onclick="finalSubmit()"><i class="fas fa-check"></i> Confirm & Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("jobForm");
+  const fieldsets = form.querySelectorAll("fieldset");
+  const previewSection = document.getElementById("previewSection");
+  const previewDetails = document.getElementById("previewDetails");
+  const progressSteps = document.querySelectorAll(".progress-step");
+
+  let currentStep = 0;
+
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  const hasWorkExperienceCheckbox = document.getElementById("hasWorkExperience");
+  const workExperienceFields = document.getElementById("workExperienceFields");
+  const noExperienceMessage = document.getElementById("noExperienceMessage");
+
+  // Initialize touch tracking for all form elements
+  document.querySelectorAll('input, select, textarea').forEach(element => {
+    element.addEventListener('blur', function() {
+      this.setAttribute('data-touched', 'true');
+      validateStep();
+    });
+  });
+
+  // Initialize Work Experience visibility
+  workExperienceFields.style.display = "none";
+  noExperienceMessage.style.display = "block";
+
+  // Update file list display
+  function updateFileList(inputId, listId) {
+    const input = document.getElementById(inputId);
+    const list = document.getElementById(listId);
+    list.innerHTML = '';
+    
+    if (input.files.length > 0) {
+      for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        const fileSize = (file.size / 1024).toFixed(2); // KB
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        fileItem.innerHTML = `
+          <i class="fas fa-file"></i>
+          <div class="file-name">${file.name}</div>
+          <div class="file-size">${fileSize} KB</div>
+        `;
+        list.appendChild(fileItem);
+      }
+    }
+  }
+
+// Toggle Work Experience Fields
+hasWorkExperienceCheckbox.addEventListener("change", function() {
+  workExperienceFields.style.display = this.checked ? "grid" : "none";
+  noExperienceMessage.style.display = this.checked ? "none" : "block";
+
+  // Reset fields and errors when unchecked
+  if (!this.checked) {
+    const fields = ["company", "role", "startDate", "endDate", "employmentType", "responsibilities"];
+    fields.forEach(field => {
+      const element = document.getElementById(field);
+      element.value = "";
+      element.removeAttribute("data-touched");
+      document.getElementById(`${field}Error`).style.display = "none";
+    });
+  }
+  validateStep();
+});
+
+  function validatePersonalInfo(isSubmit = false) {
+    let isValid = true;
+
+    const validateField = (field, errorElement, pattern = null, isRequired = true) => {
+      const isTouched = field.hasAttribute('data-touched') || isSubmit;
+      
+      if (isRequired && (!field.value || (pattern && !pattern.test(field.value)))) {
+        errorElement.style.display = isTouched ? "block" : "none";
+        if (isTouched) isValid = false;
+      } else {
+        errorElement.style.display = "none";
+      }
+    };
+
+    const name = document.getElementById("name");
+    const nameError = document.getElementById("nameError");
+    const namePattern = /^[A-Za-z ]{3,50}$/;
+    validateField(name, nameError, namePattern);
+
+    const email = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
+    const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    validateField(email, emailError, emailPattern);
+
+    isValid = validatePhone(isSubmit) && isValid;
+
+    const genderSelect = document.getElementById("gender");
+    const genderError = document.getElementById("genderError");
+    validateField(genderSelect, genderError);
+
+    const dob = document.getElementById("dob");
+    const dobError = document.getElementById("dobError");
+    if (dob.value) {
+      const dobDate = new Date(dob.value);
+      const minDate = new Date("1950-01-01");
+      const maxDate = new Date("2005-12-31");
+      if (dobDate < minDate || dobDate > maxDate) {
+        dobError.style.display = (dob.hasAttribute('data-touched') || isSubmit) ? "block" : "none";
+        if (dob.hasAttribute('data-touched') || isSubmit) isValid = false;
+      } else {
+        dobError.style.display = "none";
+      }
+    } else {
+      dobError.style.display = (dob.hasAttribute('data-touched') || isSubmit) ? "block" : "none";
+      if (dob.hasAttribute('data-touched') || isSubmit) isValid = false;
+    }
+
+    const maritalStatus = document.getElementById("marital-status");
+    const maritalStatusError = document.getElementById("maritalStatusError");
+    validateField(maritalStatus, maritalStatusError);
+
+    const street = document.getElementById("street");
+    const streetError = document.getElementById("streetError");
+    validateField(street, streetError, null, true);
+
+    const zipcode = document.getElementById("zipcode");
+    const zipcodeError = document.getElementById("zipcodeError");
+    const zipcodePattern = /^[0-9]{6}$/;
+    validateField(zipcode, zipcodeError, zipcodePattern);
+
+    return isValid;
+  }
+
+  function validatePhone(isSubmit = false) {
+    const phone = document.getElementById("phone");
+    const phoneError = document.getElementById("phoneError");
+    const isTouched = phone.hasAttribute('data-touched') || isSubmit;
+    const cleanedPhone = phone.value.replace(/[\s-]/g, '');
+    const phonePattern = /^[6789][0-9]{9}$/;
+    
+    if (!cleanedPhone || !phonePattern.test(cleanedPhone)) {
+      phoneError.style.display = isTouched ? "block" : "none";
+      phoneError.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9.`;
+      return !isTouched;
+    } else {
+      phoneError.style.display = "none";
+      phone.value = cleanedPhone; // Update input with cleaned value
+      return true;
+    }
+  }
+
+  function validateSSCDocs(isSubmit = false) {
+    const sscDocs = document.getElementById("sscDocs");
+    const sscDocsError = document.getElementById("sscDocsError");
+    const isTouched = sscDocs.hasAttribute('data-touched') || isSubmit;
+
+    if (!sscDocs.files || sscDocs.files.length === 0) {
+      sscDocsError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    }
+
+    const validTypes = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
+    let errorMessage = "";
+    let isValid = true;
+
+    for (let i = 0; i < sscDocs.files.length; i++) {
+      const file = sscDocs.files[i];
+      const fileType = file.type;
+      const fileSize = file.size / 1024 / 1024; // Size in MB
+
+      if (!validTypes.includes(fileType)) {
+        errorMessage = `File ${file.name} is not a valid type (PDF, JPG, JPEG, PNG).`;
+        isValid = false;
+      } else if (fileSize > 2) {
+        errorMessage = `File ${file.name} exceeds 2 MB limit.`;
+        isValid = false;
+      }
+    }
+
+    sscDocsError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage || 'At least one PDF, JPG, JPEG, or PNG file smaller than 2 MB is required.'}`;
+    sscDocsError.style.display = isValid ? "none" : (isTouched ? "block" : "none");
+    return isValid || !isTouched;
+  }
+
+  function validateInterDocs(isSubmit = false) {
+    const interDocs = document.getElementById("interDocs");
+    const interDocsError = document.getElementById("interDocsError");
+    const isTouched = interDocs.hasAttribute('data-touched') || isSubmit;
+
+    if (!interDocs.files || interDocs.files.length === 0) {
+      interDocsError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    }
+
+    const validTypes = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
+    let errorMessage = "";
+    let isValid = true;
+
+    for (let i = 0; i < interDocs.files.length; i++) {
+      const file = interDocs.files[i];
+      const fileType = file.type;
+      const fileSize = file.size / 1024 / 1024; // Size in MB
+
+      if (!validTypes.includes(fileType)) {
+        errorMessage = `File ${file.name} is not a valid type (PDF, JPG, JPEG, PNG).`;
+        isValid = false;
+      } else if (fileSize > 2) {
+        errorMessage = `File ${file.name} exceeds 2 MB limit.`;
+        isValid = false;
+      }
+    }
+
+    interDocsError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage || 'At least one PDF, JPG, JPEG, or PNG file smaller than 2 MB is required.'}`;
+    interDocsError.style.display = isValid ? "none" : (isTouched ? "block" : "none");
+    return isValid || !isTouched;
+  }
+  
+  function validateQualificationDocs(isSubmit = false) {
+    const qualificationDocs = document.getElementById("qualificationDocs");
+    const qualificationDocsError = document.getElementById("qualificationDocsError");
+    const isTouched = qualificationDocs.hasAttribute('data-touched') || isSubmit;
+
+    if (!qualificationDocs.files || qualificationDocs.files.length === 0) {
+      qualificationDocsError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    }
+
+    const validTypes = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
+    let errorMessage = "";
+    let isValid = true;
+
+    for (let i = 0; i < qualificationDocs.files.length; i++) {
+      const file = qualificationDocs.files[i];
+      const fileType = file.type;
+      const fileSize = file.size / 1024 / 1024; // Size in MB
+
+      if (!validTypes.includes(fileType)) {
+        errorMessage = `File ${file.name} is not a valid type (PDF, JPG, JPEG, PNG).`;
+        isValid = false;
+      } else if (fileSize > 2) {
+        errorMessage = `File ${file.name} exceeds 2 MB limit.`;
+        isValid = false;
+      }
+    }
+
+    qualificationDocsError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage || 'At least one PDF, JPG, JPEG, or PNG file smaller than 2 MB is required.'}`;
+    qualificationDocsError.style.display = isValid ? "none" : (isTouched ? "block" : "none");
+    return isValid || !isTouched;
+  }
+// Generic validation function for text fields (alphabet-only with spaces)
+function validateTextField(fieldId, errorId, minLength, errorMessage, isSubmit = false) {
+  const field = document.getElementById(fieldId);
+  const error = document.getElementById(errorId);
+  const isTouched = field.hasAttribute("data-touched") || isSubmit;
+  const alphabetPattern = /^[A-Za-z ]+$/;
+
+  if (!field.value) {
+    error.textContent = "This field is required.";
+    error.style.display = isTouched ? "block" : "none";
+    return !isTouched;
+  } else if (field.value.length < minLength) {
+    error.textContent = errorMessage;
+    error.style.display = isTouched ? "block" : "none";
+    return !isTouched;
+  } else if (!alphabetPattern.test(field.value)) {
+    error.textContent = "Only letters and spaces are allowed.";
+    error.style.display = isTouched ? "block" : "none";
+    return !isTouched;
+  }
+  error.style.display = "none";
+  return true;
+}
+
+function validateCompany(isSubmit = false) {
+  if (!hasWorkExperienceCheckbox.checked) return true;
+  return validateTextField(
+    "company",
+    "companyError",
+    2,
+    "Company name must be at least 2 characters long.",
+    isSubmit
+  );
+}
+
+// Validate Role
+function validateRole(isSubmit = false) {
+  if (!hasWorkExperienceCheckbox.checked) return true;
+  return validateTextField(
+    "role",
+    "roleError",
+    2,
+    "Job title must be at least 2 characters long.",
+    isSubmit
+  );
+}
+
+// Validate Dates
+function validateDates(isSubmit = false) {
+  if (!hasWorkExperienceCheckbox.checked) return true;
+
+  const startDate = document.getElementById("startDate");
+  const endDate = document.getElementById("endDate");
+  const startDateError = document.getElementById("startDateError");
+  const endDateError = document.getElementById("endDateError");
+  const isTouched = startDate.hasAttribute("data-touched") || endDate.hasAttribute("data-touched") || isSubmit;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize to start of day
+  let isValid = true;
+
+  // Check if start date is provided and valid
+  if (!startDate.value) {
+    startDateError.textContent = "Please provide a start date.";
+    startDateError.style.display = isTouched ? "block" : "none";
+    isValid = false;
+  } else {
+    const start = new Date(startDate.value);
+    if (start > today) {
+      startDateError.textContent = "Start date cannot be in the future.";
+      startDateError.style.display = isTouched ? "block" : "none";
+      isValid = false;
+    } else {
+      startDateError.style.display = "none";
+    }
+  }
+
+  // Check if end date is provided and valid
+  if (!endDate.value) {
+    endDateError.textContent = "Please provide an end date.";
+    endDateError.style.display = isTouched ? "block" : "none";
+    isValid = false;
+  } else {
+    const end = new Date(endDate.value);
+    const start = startDate.value ? new Date(startDate.value) : null;
+    if (end > today) {
+      endDateError.textContent = "End date cannot be in the future.";
+      endDateError.style.display = isTouched ? "block" : "none";
+      isValid = false;
+    } else if (start && end < start) {
+      endDateError.textContent = "End date must be after start date.";
+      endDateError.style.display = isTouched ? "block" : "none";
+      isValid = false;
+    } else {
+      endDateError.style.display = "none";
+    }
+  }
+
+  return isValid || !isTouched;
+}
+
+// Validate Employment Type
+function validateEmploymentType(isSubmit = false) {
+  if (!hasWorkExperienceCheckbox.checked) return true;
+
+  const employmentType = document.getElementById("employmentType");
+  const employmentTypeError = document.getElementById("employmentTypeError");
+  const isTouched = employmentType.hasAttribute("data-touched") || isSubmit;
+
+  if (!employmentType.value) {
+    employmentTypeError.textContent = "Please select an employment type.";
+    employmentTypeError.style.display = isTouched ? "block" : "none";
+    return !isTouched;
+  }
+  employmentTypeError.style.display = "none";
+  return true;
+}
+
+// Validate Responsibilities
+function validateResponsibilities(isSubmit = false) {
+  if (!hasWorkExperienceCheckbox.checked) return true;
+
+  const responsibilities = document.getElementById("responsibilities");
+  const responsibilitiesError = document.getElementById("responsibilitiesError");
+  const isTouched = responsibilities.hasAttribute("data-touched") || isSubmit;
+
+  if (!responsibilities.value || responsibilities.value.length < 10) {
+    responsibilitiesError.textContent = "Responsibilities must be at least 10 characters.";
+    responsibilitiesError.style.display = isTouched ? "block" : "none";
+    return !isTouched;
+  } else if (responsibilities.value.length > 500) {
+    responsibilitiesError.textContent = "Responsibilities cannot exceed 500 characters.";
+    responsibilitiesError.style.display = isTouched ? "block" : "none";
+    return !isTouched;
+  }
+  responsibilitiesError.style.display = "none";
+  return true;
+}
+  function validateResume(isSubmit = false) {
+    const resume = document.getElementById("resume");
+    const resumeError = document.getElementById("resumeError");
+    const isTouched = resume.hasAttribute('data-touched') || isSubmit;
+
+    if (!resume.files || resume.files.length === 0) {
+      resumeError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    }
+
+    const file = resume.files[0];
+    const fileType = file.type;
+    const fileSize = file.size / 1024 / 1024; 
+    const errorMessage = fileType !== "application/pdf" ? `File ${file.name} is not a PDF.` : 
+                         fileSize > 2 ? `File ${file.name} exceeds 2 MB limit.` : '';
+
+    if (fileType !== "application/pdf" || fileSize > 2) {
+      resumeError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage || 'Please upload a PDF file smaller than 2 MB.'}`;
+      resumeError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    } else {
+      resumeError.style.display = "none";
+      return true;
+    }
+  }
+
+  function validateIdProof(isSubmit = false) {
+    const idProof = document.getElementById("idProof");
+    const idProofError = document.getElementById("idProofError");
+    const isTouched = idProof.hasAttribute('data-touched') || isSubmit;
+    
+    if (!idProof.files || idProof.files.length === 0) {
+      idProofError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    }
+    
+    const file = idProof.files[0];
+    const fileType = file.type;
+    const fileSize = file.size / 1024 / 1024; 
+    const validTypes = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
+    const errorMessage = !validTypes.includes(fileType) ? `File ${file.name} is not a valid type (PDF, JPG, JPEG, PNG).` : 
+                         fileSize > 2 ? `File ${file.name} exceeds 2 MB limit.` : '';
+    
+    if (!validTypes.includes(fileType) || fileSize > 2) {
+      idProofError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage || 'Please upload a file (PDF, JPG, JPEG, PNG) smaller than 2 MB.'}`;
+      idProofError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    } else {
+      idProofError.style.display = "none";
+      return true;
+    }
+  }
+
+  function validateCurrentLocation(isSubmit = false) {
+    const currentLocation = document.getElementById("currentLocation");
+    const currentLocationError = document.getElementById("currentLocationError");
+    const isTouched = currentLocation.hasAttribute('data-touched') || isSubmit;
+
+    if (!currentLocation.value) {
+      currentLocationError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    } else {
+      currentLocationError.style.display = "none";
+      return true;
+    }
+  }
+
+  function validatePreferredLocation(isSubmit = false) {
+    const preferredLocation = document.getElementById("preferredLocation");
+    const preferredLocationError = document.getElementById("preferredLocationError");
+    const isTouched = preferredLocation.hasAttribute('data-touched') || isSubmit;
+
+    if (!preferredLocation.value) {
+      preferredLocationError.style.display = isTouched ? "block" : "none";
+      return !isTouched;
+    } else {
+      preferredLocationError.style.display = "none";
+      return true;
+    }
+  }
+
+  function validateCertificates(isSubmit = false) {
+    const certificates = document.getElementById("certificates");
+    const certificatesError = document.getElementById("certificatesError");
+    const isTouched = certificates.hasAttribute('data-touched') || isSubmit;
+    
+    if (!certificates.files || certificates.files.length === 0) {
+      certificatesError.style.display = "none";
+      return true; 
+    }
+    
+    const validTypes = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
+    let errorMessage = "";
+    let isValid = true;
+    
+    for (let i = 0; i < certificates.files.length; i++) {
+      const file = certificates.files[i];
+      const fileType = file.type;
+      const fileSize = file.size / 1024 / 1024; 
+      
+      if (!validTypes.includes(fileType)) {
+        errorMessage = `File ${file.name} is not a valid type (PDF, JPG, JPEG, PNG).`;
+        isValid = false;
+      } else if (fileSize > 2) {
+        errorMessage = `File ${file.name} exceeds 2 MB limit.`;
+        isValid = false;
+      }
+    }
+    
+    certificatesError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage || 'Each file should be smaller than 2 MB.'}`;
+    certificatesError.style.display = isValid ? "none" : (isTouched ? "block" : "none");
+    return isValid || !isTouched;
+  }
+
+  function validateEducation(isSubmit = false) {
+    return (
+      validateSSCDocs(isSubmit) &&
+      validateInterDocs(isSubmit) &&
+      validateQualificationDocs(isSubmit)
+    );
+  }
+
+// Validate Work Experience Section
+function validateWorkExperience(isSubmit = false) {
+  if (!hasWorkExperienceCheckbox.checked) {
+    // Clear any existing errors when no experience is selected
+    ["companyError", "roleError", "startDateError", "endDateError", "employmentTypeError", "responsibilitiesError"].forEach(
+      errorId => (document.getElementById(errorId).style.display = "none")
+    );
+    return true;
+  }
+
+  // If any field is filled, all required fields must be completed
+  const fields = ["company", "role", "startDate", "endDate", "employmentType", "responsibilities"];
+  const anyFieldFilled = fields.some(field => document.getElementById(field).value);
+
+  if (!anyFieldFilled) {
+    // If no fields are filled, show errors only on submit
+    if (isSubmit) {
+      fields.forEach(field => {
+        const errorId = `${field}Error`;
+        document.getElementById(errorId).style.display = "block";
+      });
+      return false;
+    }
+    return true;
+  }
+
+  // Validate all fields if any are filled
+  return (
+    validateCompany(isSubmit) &&
+    validateRole(isSubmit) &&
+    validateDates(isSubmit) &&
+    validateEmploymentType(isSubmit) &&
+    validateResponsibilities(isSubmit)
+  );
+}
+
+  function validateDocumentation(isSubmit = false) {
+    return (
+      validateCurrentLocation(isSubmit) &&
+      validatePreferredLocation(isSubmit) &&
+      validateResume(isSubmit) &&
+      validateIdProof(isSubmit) &&
+      validateCertificates(isSubmit)
+    );
+  }
+
+  function validateStep(isSubmit = false) {
+    let isValid = false;
+    console.log(`Validating step ${currentStep}`);
+    switch(currentStep) {
+      case 0: 
+        isValid = validatePersonalInfo(isSubmit);
+        console.log('Personal Info Valid:', isValid);
+        break;
+      case 1: 
+        isValid = validateEducation(isSubmit);
+        console.log('Education Valid:', isValid);
+        break;
+      case 2: 
+        isValid = validateWorkExperience(isSubmit);
+        console.log('Work Experience Valid:', isValid);
+        break;
+      case 3: 
+        isValid = validateDocumentation(isSubmit);
+        console.log('Documentation Valid:', isValid);
+        break;
+      default:
+        isValid = true;
+    }
+    nextBtn.disabled = !isValid;
+    console.log('Next Button Disabled:', nextBtn.disabled);
+    return isValid;
+  }
+
+  document.querySelectorAll("input, select, textarea").forEach(element => {
+    element.addEventListener("input", function() {
+      validateStep();
+    });
+  });
+
+  function showStep(step) {
+    fieldsets.forEach((fieldset, index) => {
+      fieldset.classList.toggle("active", index === step);
+    });
+
+    progressSteps.forEach((progressStep, index) => {
+      if (index < step) {
+        progressStep.classList.add("active");
+      } else if (index === step) {
+        progressStep.classList.add("active");
+      } else {
+        progressStep.classList.remove("active");
+      }
+    });
+
+    prevBtn.disabled = step === 0;
+    nextBtn.textContent = step === fieldsets.length - 1 ? "Preview" : "Next";
+    nextBtn.innerHTML = step === fieldsets.length - 1 ? '<i class="fas fa-eye"></i> Preview' : '<i class="fas fa-arrow-right"></i> Next';
+
+    validateStep();
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentStep > 0) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentStep < fieldsets.length - 1) {
+      fieldsets[currentStep].querySelectorAll('input, select, textarea').forEach(el => {
+        el.setAttribute('data-touched', 'true');
+      });
+      
+      if (validateStep(true)) {
+        currentStep++;
+        showStep(currentStep);
+      }
+    } else {
+      showPreview();
+    }
+  });
+
+  async function showPreview() {
+    form.querySelectorAll('input, select, textarea').forEach(el => {
+      el.setAttribute('data-touched', 'true');
+    });
+
+    const errors = [];
+    if (!validatePersonalInfo(true)) errors.push("Personal Information");
+    if (!validateEducation(true)) errors.push("Education Details");
+    if (!validateWorkExperience(true)) errors.push("Work Experience");
+    if (!validateDocumentation(true)) errors.push("Final Documentation");
+
+    if (errors.length > 0) {
+      alert(`Please complete the following sections correctly before previewing: ${errors.join(", ")}.`);
+      return;
+    }
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const gender = document.getElementById("gender").value;
+    const dob = document.getElementById("dob").value;
+    const maritalStatus = document.getElementById("marital-status").value;
+    const street = document.getElementById("street").value;
+    const zipcode = document.getElementById("zipcode").value;
+    const currentLocation = document.getElementById("currentLocation").value;
+    const preferredLocation = document.getElementById("preferredLocation").value;
+
+    let workExperienceHtml = '';
+    if (hasWorkExperienceCheckbox.checked) {
+      const company = document.getElementById("company").value;
+      const role = document.getElementById("role").value;
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const employmentType = document.getElementById("employmentType").value;
+      const responsibilities = document.getElementById("responsibilities").value;
+
+      if (company || role || startDate || employmentType || responsibilities) {
+        workExperienceHtml = `
+          <div class="preview-item"><strong><i class="fas fa-building"></i> Most Recent Employer:</strong> ${company || 'Not provided'}</div>
+          <div class="preview-item"><strong><i class="fas fa-user-tie"></i> Job Title:</strong> ${role || 'Not provided'}</div>
+          <div class="preview-item"><strong><i class="fas fa-calendar"></i> Employment Period:</strong> ${startDate ? new Date(startDate).toLocaleDateString() : 'Not provided'} ${endDate ? ' to ' + new Date(endDate).toLocaleDateString() : ''}</div>
+          <div class="preview-item"><strong><i class="fas fa-clock"></i> Employment Type:</strong> ${employmentType || 'Not provided'}</div>
+          <div class="preview-item"><strong><i class="fas fa-tasks"></i> Responsibilities:</strong> ${responsibilities || 'Not provided'}</div>
+        `;
+      } else {
+        workExperienceHtml = `<div class="preview-item"><strong><i class="fas fa-briefcase"></i> Work Experience:</strong> No details provided</div>`;
+      }
+    } else {
+      workExperienceHtml = `<div class="preview-item"><strong><i class="fas fa-briefcase"></i> Work Experience:</strong> None</div>`;
+    }
+
+    const resumeFileName = document.getElementById("resume").files[0]?.name || 'Not provided';
+    const idProofFileName = document.getElementById("idProof").files[0]?.name || 'Not provided';
+    const sscDocsFiles = document.getElementById("sscDocs").files;
+    const interDocsFiles = document.getElementById("interDocs").files;
+    const qualificationDocsFiles = document.getElementById("qualificationDocs").files;
+    const certificatesFiles = document.getElementById("certificates").files;
+
+    let sscDocsHtml = '';
+    if (sscDocsFiles.length > 0) {
+      sscDocsHtml = `<div class="preview-item"><strong><i class="fas fa-file-alt"></i> SSC Documents:</strong> <ul>`;
+      for (let i = 0; i < sscDocsFiles.length; i++) {
+        sscDocsHtml += `<li><i class="fas fa-file-pdf"></i> ${sscDocsFiles[i].name}</li>`;
+      }
+      sscDocsHtml += `</ul></div>`;
+    } else {
+      sscDocsHtml = `<div class="preview-item"><strong><i class="fas fa-file-alt"></i> SSC Documents:</strong> None uploaded</div>`;
+    }
+
+    let interDocsHtml = '';
+    if (interDocsFiles.length > 0) {
+      interDocsHtml = `<div class="preview-item"><strong><i class="fas fa-file-alt"></i> Intermediate Documents:</strong> <ul>`;
+      for (let i = 0; i < interDocsFiles.length; i++) {
+        interDocsHtml += `<li><i class="fas fa-file-pdf"></i> ${interDocsFiles[i].name}</li>`;
+      }
+      interDocsHtml += `</ul></div>`;
+    } else {
+      interDocsHtml = `<div class="preview-item"><strong><i class="fas fa-file-alt"></i> Intermediate Documents:</strong> None uploaded</div>`;
+    }
+
+    let qualificationDocsHtml = '';
+    if (qualificationDocsFiles.length > 0) {
+      qualificationDocsHtml = `<div class="preview-item"><strong><i class="fas fa-file-alt"></i> Highest Qualification Documents:</strong> <ul>`;
+      for (let i = 0; i < qualificationDocsFiles.length; i++) {
+        qualificationDocsHtml += `<li><i class="fas fa-file-pdf"></i> ${qualificationDocsFiles[i].name}</li>`;
+      }
+      qualificationDocsHtml += `</ul></div>`;
+    } else {
+      qualificationDocsHtml = `<div class="preview-item"><strong><i class="fas fa-file-alt"></i> Highest Qualification Documents:</strong> None uploaded</div>`;
+    }
+
+    let certificatesHtml = '';
+    if (certificatesFiles.length > 0) {
+      certificatesHtml = `<div class="preview-item"><strong><i class="fas fa-certificate"></i> Additional Certificates:</strong> <ul>`;
+      for (let i = 0; i < certificatesFiles.length; i++) {
+        certificatesHtml += `<li><i class="fas fa-file-pdf"></i> ${certificatesFiles[i].name}</li>`;
+      }
+      certificatesHtml += `</ul></div>`;
+    } else {
+      certificatesHtml = `<div class="preview-item"><strong><i class="fas fa-certificate"></i> Additional Certificates:</strong> None uploaded</div>`;
+    }
+
+    previewDetails.innerHTML = `
+      <h4><i class="fas fa-user"></i> Personal Information</h4>
+      <div class="preview-item"><strong><i class="fas fa-signature"></i> Full Name:</strong> ${name}</div>
+      <div class="preview-item"><strong><i class="fas fa-envelope"></i> Email:</strong> ${email}</div>
+      <div class="preview-item"><strong><i class="fas fa-phone"></i> Phone:</strong> ${phone}</div>
+      <div class="preview-item"><strong><i class="fas fa-venus-mars"></i> Gender:</strong> ${gender}</div>
+      <div class="preview-item"><strong><i class="fas fa-birthday-cake"></i> Date of Birth:</strong> ${dob ? new Date(dob).toLocaleDateString() : ''}</div>
+      <div class="preview-item"><strong><i class="fas fa-heart"></i> Marital Status:</strong> ${maritalStatus}</div>
+      <div class="preview-item"><strong><i class="fas fa-map-marker-alt"></i> Address:</strong> ${street}, ${zipcode}</div>
+      <h4><i class="fas fa-graduation-cap"></i> Education Details</h4>
+      ${qualificationDocsHtml}
+      ${interDocsHtml}
+      ${sscDocsHtml}
+      <h4><i class="fas fa-briefcase"></i> Work Experience</h4>
+      ${workExperienceHtml}
+      <h4><i class="fas fa-file-alt"></i> Final Documentation</h4>
+      <div class="preview-item"><strong><i class="fas fa-map-pin"></i> Current Location:</strong> ${currentLocation}</div>
+      <div class="preview-item"><strong><i class="fas fa-map-marked-alt"></i> Preferred Location:</strong> ${preferredLocation}</div>
+      <div class="preview-item"><strong><i class="fas fa-file-pdf"></i> Resume:</strong> ${resumeFileName}</div>
+      <div class="preview-item"><strong><i class="fas fa-id-card"></i> ID Proof:</strong> ${idProofFileName}</div>
+      ${certificatesHtml}
+    `;
+
+    form.style.display = "none";
+    previewSection.style.display = "block";
+  }
+
+  function editForm() {
+    form.style.display = "block";
+    previewSection.style.display = "none";
+    showStep(currentStep);
+  }
+
+  async function finalSubmit() {
+    const errors = [];
+    if (!validatePersonalInfo(true)) errors.push("Personal Information");
+    if (!validateEducation(true)) errors.push("Education Details");
+    if (!validateWorkExperience(true)) errors.push("Work Experience");
+    if (!validateDocumentation(true)) errors.push("Final Documentation");
+
+    if (errors.length > 0) {
+      alert(`Please complete the following sections correctly before submitting: ${errors.join(", ")}.`);
+      editForm();
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('personalInfo', JSON.stringify({
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      phone: document.getElementById("phone").value,
+      gender: document.getElementById("gender").value,
+      dob: document.getElementById("dob").value,
+      maritalStatus: document.getElementById("marital-status").value,
+      street: document.getElementById("street").value,
+      zipcode: document.getElementById("zipcode").value
+    }));
+
+    formData.append('workExperience', JSON.stringify(
+      hasWorkExperienceCheckbox.checked ? {
+        hasExperience: true,
+        company: document.getElementById("company").value,
+        role: document.getElementById("role").value,
+        startDate: document.getElementById("startDate").value,
+        endDate: document.getElementById("endDate").value,
+        employmentType: document.getElementById("employmentType").value,
+        responsibilities: document.getElementById("responsibilities").value
+      } : { hasExperience: false }
+    ));
+
+    formData.append('documents', JSON.stringify({
+      currentLocation: document.getElementById("currentLocation").value,
+      preferredLocation: document.getElementById("preferredLocation").value
+    }));
+
+    const resume = document.getElementById("resume").files[0];
+    if (resume) formData.append('resume', resume);
+
+    const idProof = document.getElementById("idProof").files[0];
+    if (idProof) formData.append('idProof', idProof);
+
+    const sscDocs = document.getElementById("sscDocs").files;
+    for (let i = 0; i < sscDocs.length; i++) {
+      formData.append('sscDocs', sscDocs[i]);
+    }
+
+    const interDocs = document.getElementById("interDocs").files;
+    for (let i = 0; i < interDocs.length; i++) {
+      formData.append('interDocs', interDocs[i]);
+    }
+
+    const qualificationDocs = document.getElementById("qualificationDocs").files;
+    for (let i = 0; i < qualificationDocs.length; i++) {
+      formData.append('qualificationDocs', qualificationDocs[i]);
+    }
+
+    const certificates = document.getElementById("certificates").files;
+    for (let i = 0; i < certificates.length; i++) {
+      formData.append('certificates', certificates[i]);
+    }
+
+    // Debug FormData content
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+   try {
+    const response = await fetch('http://localhost:3000/api/applications', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      // Clear the form and hide it
+      form.style.display = "none";
+      previewSection.style.display = "block";
+      
+      // Display success message
+      previewSection.innerHTML = `
+        <h3><i class="fas fa-check-circle"></i> Application Submitted Successfully!</h3>
+        <div class="success-message">
+          <p>Thank you for submitting your application. We have received your information and will review it shortly.</p>
+          <p>You will be contacted via email at <strong>${document.getElementById("email").value}</strong> regarding the next steps.</p>
+          <p><i class="fas fa-info-circle"></i> Your application has been saved to our database.</p>
+        </div>
+        <div class="navigation-buttons">
+          <button class="btn btn-primary" id="submitAnother"><i class="fas fa-redo"></i> Submit Another Application</button>
+        </div>
+      `;
+
+      // Add event listener to the button to avoid inline onclick
+      document.getElementById("submitAnother").addEventListener("click", () => {
+        form.reset(); // Reset form fields
+        currentStep = 0; // Reset to first step
+        showStep(currentStep); // Show first step
+        form.style.display = "block"; // Show form
+        previewSection.style.display = "none"; // Hide success message
+      });
+    } else {
+      throw new Error(result.error || 'Failed to submit application');
+    }
+  } catch (error) {
+    console.error('Submission Error:', error);
+    alert('Error submitting application: ' + error.message);
+    editForm();
+  }
+}
+  showStep(currentStep);
+</script>
+</body>
+</html>
