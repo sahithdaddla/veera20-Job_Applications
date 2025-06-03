@@ -28,8 +28,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         try {
-            await fs.mkdir('./Uploads', { recursive: true });
-            cb(null, './Uploads');
+            const uploadPath = path.join(__dirname, 'uploads'); // Use absolute path
+            await fs.mkdir(uploadPath, { recursive: true });
+            cb(null, uploadPath);
         } catch (error) {
             cb(error);
         }
@@ -38,6 +39,13 @@ const storage = multer.diskStorage({
         cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
+
+// Serve Frontend and HR static files
+app.use('/frontend', express.static(path.join(__dirname, '../Frontend')));
+app.use('/hr', express.static(path.join(__dirname, '../HR')));
+
+// Serve uploaded files statically (already correct)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const upload = multer({
     storage,
