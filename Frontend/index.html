@@ -551,9 +551,11 @@
         </div>
 <div class="form-group">
   <label for="zipcode"><i class="fas fa-mail-bulk"></i> Postal/ZIP Code</label>
-  <input type="text" id="zipcode" class="form-control" pattern="[1-9][0-9]{5}" title="Enter a valid 6-digit postal code (e.g., 560001)." placeholder="560001" maxlength="6" required>
+  <input type="text" id="zipcode" class="form-control" pattern="[1-9][0-9]{5}" 
+         title="Enter a valid 6-digit postal code that doesn't start with zero (e.g., 560001)." 
+         placeholder="560001" maxlength="6" required>
   <small id="zipcodeError" class="error">
-    <i class="fas fa-exclamation-circle"></i> Please enter a valid 6-digit postal code (e.g., 560001).
+    <i class="fas fa-exclamation-circle"></i> Please enter a valid 6-digit postal code that doesn't start with zero.
   </small>
 </div>
       </div>
@@ -887,10 +889,8 @@ hasWorkExperienceCheckbox.addEventListener("change", function() {
     const streetError = document.getElementById("streetError");
     validateField(street, streetError, null, true);
 
-    const zipcode = document.getElementById("zipcode");
-    const zipcodeError = document.getElementById("zipcodeError");
-    const zipcodePattern = /^[0-9]{6}$/;
-    validateField(zipcode, zipcodeError, zipcodePattern);
+     isValid = validateZipCode(isSubmit) && isValid;
+
 
     return isValid;
   }
@@ -1085,31 +1085,41 @@ function validateRole(isSubmit = false) {
 }
 
 function validateZipCode(isSubmit = false) {
-  const zipcode = document.getElementById("zipcode");
-  const zipcodeError = document.getElementById("zipcodeError");
-  const isTouched = zipcode.hasAttribute('data-touched') || isSubmit;
-  const zipcodePattern = /^[1-9][0-9]{5}$/;
+    const zipcode = document.getElementById("zipcode");
+    const zipcodeError = document.getElementById("zipcodeError");
+    const isTouched = zipcode.hasAttribute('data-touched') || isSubmit;
+    
+    // Sanitize input: keep only digits and limit to 6 characters
+    zipcode.value = zipcode.value.replace(/[^0-9]/g, '').slice(0, 6);
+    
+    let errorMessage = "";
+    
+    // Check for all zeros
+    if (/^0+$/.test(zipcode.value)) {
+        errorMessage = "Postal code cannot be all zeros.";
+    } 
+    // Check if it starts with zero
+    else if (/^0/.test(zipcode.value)) {
+        errorMessage = "Postal code cannot start with zero.";
+    }
+    else if (!zipcode.value) {
+        errorMessage = "Please enter a 6-digit postal code.";
+    } 
+    else if (zipcode.value.length !== 6) {
+        errorMessage = "Postal code must be exactly 6 digits.";
+    } 
+    else if (!/^[1-9][0-9]{5}$/.test(zipcode.value)) {
+        errorMessage = "Postal code must be a valid 6-digit number.";
+    }
 
-  // Sanitize input: keep only digits
-  zipcode.value = zipcode.value.replace(/[^0-9]/g, '').slice(0, 6);
-
-  let errorMessage = "";
-  if (!zipcode.value) {
-    errorMessage = "Please enter a 6-digit postal code.";
-  } else if (zipcode.value.length !== 6) {
-    errorMessage = "Postal code must be exactly 6 digits.";
-  } else if (!zipcodePattern.test(zipcode.value)) {
-    errorMessage = "Postal code must start with a non-zero digit (1-9).";
-  }
-
-  if (errorMessage) {
-    zipcodeError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage}`;
-    zipcodeError.style.display = isTouched ? "block" : "none";
-    return !isTouched;
-  } else {
-    zipcodeError.style.display = "none";
-    return true;
-  }
+    if (errorMessage) {
+        zipcodeError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage}`;
+        zipcodeError.style.display = isTouched ? "block" : "none";
+        return !isTouched; // Return true if not touched and has error
+    } else {
+        zipcodeError.style.display = "none";
+        return true;
+    }
 }
 
 function validateDates(isSubmit = false) {
