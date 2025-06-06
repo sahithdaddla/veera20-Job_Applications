@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard - Offer Letters</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-50: #f5f3ff;
+            --primary-100: #ede9fe;
+            --primary-200: #ddd6fe;
+            --primary-300: #c4b5fd;
+            --primary-400: #a78bfa;
+            --primary-500: #8b5cf6;
+            --primary-600: #7c3aed;
+            --primary-700: #6d28d9;
+            --primary-800: #5b21b6;
+            --primary-900: #4c1d95;
+            
+            --secondary-color: #06b6d4;
+            --secondary-light: #22d3ee;
+            --secondary-dark: #0891b2;
+            
+            --dark-50: #f8fafc;
+            --dark-100: #f1f5f9;
+            --dark-200: #e2e8f0;
+            --dark-300: #cbd5e1;
+            --dark-400: #94a3b8;
+            --dark-500: #64748b;
+            --dark-600: #475569;
+            --dark-700: #334155;
+            --dark-800: #1e293b;
+            --dark-900: #0f172a;
+            
+            --success-100: #dcfce7;
+            --success-500: #22c55e;
+            --success-700: #15803d;
+            
+            --error-100: #fee2e2;
+            --error-500: #ef4444;
+            --error-700: #b91c1c;
+            
+            --warning-100: #fef3c7;
+            --warning-500: #f59e0b;
+            --warning-700: #b45309;
+            
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            
+            --surface-0: #ffffff;
+            --surface-50: #f9fafb;
+            --surface-100: #f3f4f6;
+            --surface-200: #e5e7eb;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            
+            --radius-sm: 0.25rem;
+            --radius: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background-color: var(--surface-50);
+            min-height: 100vh;
+            color: var(--dark-800);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+
+        .header-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-title i {
+            font-size: 1.5rem;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            transition: var(--transition-slow);
+        }
+
+        .glass-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .flex-container {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--surface-0);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .input-group:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        .input-label {
+            color: var(--dark-600);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .input-label i {
+            color: var(--primary-color);
+        }
+
+        .form-input {
+            border: none;
+            color: var(--dark-700);
+            padding: 0.25rem 0.5rem;
+            outline: none;
+            font-size: 0.875rem;
+            background: transparent;
+            min-width: 200px;
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .stats-box {
+            color: var(--dark-600);
+            background-color: var(--surface-0);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stats-box i {
+            color: var(--primary-color);
+        }
+
+        .stats-box span {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .table-container {
+            background: var(--surface-0);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition-slow);
+            margin-bottom: 2rem;
+        }
+
+        .table-container:hover {
+            box-shadow: var(--shadow-xl);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            display: table;
+        }
+
+        thead {
+            display: table-header-group;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        th {
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        th:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        th i {
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--surface-200);
+            transition: var(--transition);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background-color: var(--surface-50);
+        }
+
+        td {
+            padding: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-accepted {
+            background-color: var(--success-100);
+            color: var(--success-700);
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 0.8125rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .action-btn i {
+            font-size: 0.875rem;
+        }
+
+        .view-btn {
+            background-color: var(--primary-50);
+            color: var(--primary-700);
+        }
+
+        .view-btn:hover {
+            background-color: var(--primary-100);
+        }
+
+        .generate-btn {
+            background-color: var(--success-100);
+            color: var(--success-700);
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            background-color: var(--success-200);
+        }
+
+        .close-btn {
+            background-color: var(--surface-100);
+            color: var(--dark-700);
+        }
+
+        .close-btn:hover {
+            background-color: var(--surface-200);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pagination-button {
+            padding: 0.375rem 0.875rem;
+            background-color: var(--surface-100);
+            color: var(--dark-600);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .pagination-button:hover:not(:disabled) {
+            background-color: var(--surface-200);
+            color: var(--dark-700);
+        }
+
+        .pagination-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            padding: 0.375rem 0.875rem;
+            color: var(--dark-600);
+            font-size: 0.875rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--surface-0);
+            border-radius: var(--radius-xl);
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            padding: 2rem;
+            animation: slideUp 0.3s ease-out;
+            position: relative;
+            border: 1px solid var(--surface-200);
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--surface-200);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-400);
+            transition: var(--transition);
+            background: none;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-content .close:hover {
+            color: var(--dark-600);
+            background-color: var(--surface-100);
+        }
+
+        .offer-letter {
+            background-color: white;
+            border: 1px solid var(--surface-200);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .letter-header h1 {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .letter-header p {
+            color: var(--dark-600);
+            font-size: 0.875rem;
+        }
+
+        .letter-body {
+            margin-bottom: 2rem;
+        }
+
+        .letter-date {
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+
+        .letter-address {
+            margin-bottom: 1.5rem;
+        }
+
+        .letter-greeting {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .letter-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .letter-signature {
+            margin-top: 3rem;
+            text-align: right;
+        }
+
+        .letter-signature p {
+            margin-top: 3rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-700);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--surface-200);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        .form-control.invalid {
+            border-color: var(--error-500);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--error-500);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .error-message i {
+            color: var(--error-500);
+            font-size: 1.25rem;
+        }
+
+        .error-message h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.9375rem;
+        }
+
+        .field-error {
+            font-size: 0.875rem;
+            color: var(--error-500);
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .field-error.visible {
+            display: block;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .loading-message i {
+            animation: spin 1s linear infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .notification i {
+            font-size: 1rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-100);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-300);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-400);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.5rem;
+            }
+            .modal-content {
+                width: 95%;
+                height: 95vh;
+                padding: 1.25rem;
+            }
+            .action-btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.75rem;
+            }
+            .offer-letter {
+                padding: 1rem;
+            }
+            .letter-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">
+                <i class="fas fa-file-contract"></i> Offer Letter Management
+            </h1>
+        </header>
+
+        <div id="errorContainer" class="hidden"></div>
+
+        <div class="glass-card">
+            <div class="flex-container">
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <div class="input-group">
+                        <label for="searchInput" class="input-label">
+                            <i class="fas fa-search"></i> Search:
+                        </label>
+                        <input id="searchInput" type="text" class="form-input" placeholder="Name, email, or phone" aria-label="Search candidates by name, email, or phone">
+                    </div>
+                </div>
+                <div class="stats-box">
+                    <i class="fas fa-file-contract"></i>
+                    Accepted Candidates: <span id="totalCandidates">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user"></i><span>Candidate</span></th>
+                        <th><i class="fas fa-phone"></i><span>Phone</span></th>
+                        <th><i class="fas fa-envelope"></i><span>Email</span></th>
+                        <th><i class="fas fa-calendar-day"></i><span>Acceptance Date</span></th>
+                        <th><i class="fas fa-cog"></i><span>Actions</span></th>
+                    </tr>
+                </thead>
+                <tbody id="candidatesTable">
+                    <tr>
+                        <td colspan="5" class="loading-message">
+                            <i class="fas fa-spinner"></i> Loading accepted candidates...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="paginationControls" class="pagination"></div>
+
+        <div id="offerLetterModal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeModal()" aria-label="Close generate offer letter modal">×</button>
+                <h2><i class="fas fa-file-contract"></i> Generate Offer Letter</h2>
+                
+                <div class="form-group">
+                    <label for="position" class="form-label">Position</label>
+                    <input type="text" id="position" class="form-control" placeholder="e.g., Software Engineer" required pattern="[A-Z][a-zA-Z]*( [A-Z][a-zA-Z]*)*" minlength="4">
+                    <div id="positionError" class="field-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="text" id="salary" class="form-control" placeholder="e.g., 75000" required pattern="\d+">
+                    <div id="salaryError" class="field-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" id="startDate" class="form-control" required>
+                    <div id="startDateError" class="field-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="managerName" class="form-label">Manager Name</label>
+                    <input type="text" id="managerName" class="form-control" placeholder="e.g., John Doe" required pattern="[A-Z][a-zA-Z]*( [A-Z][a-zA-Z]*)*" minlength="4">
+                    <div id="managerNameError" class="field-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additionalTerms" class="form-label">Additional Terms</label>
+                    <textarea id="additionalTerms" class="form-control" rows="4" placeholder="Enter any additional terms or conditions"></textarea>
+                    <div id="additionalTermsError" class="field-error"></div>
+                </div>
+                
+                <div id="offerLetterPreview" class="offer-letter hidden">
+                    <div class="letter-header">
+                        <h1>OFFER LETTER</h1>
+                        <p>Astrolite Tech Soluctions • 123 Business Street • City, State ZIP</p>
+                    </div>
+                    
+                    <div class="letter-body">
+                        <div class="letter-date" id="letterDate"></div>
+                        
+                        <div class="letter-address" id="candidateAddress"></div>
+                        
+                        <div class="letter-greeting">Dear <span id="candidateName"></span>,</div>
+                        
+                        <div class="letter-content">
+                            <p>We are pleased to offer you the position of <strong><span id="offerPosition"></span></strong> at <strong>Astrolite Tech Soluctions</strong>. This letter outlines the terms of your employment.</p>
+                            
+                            <p><strong>Position:</strong> <span id="previewPosition"></span></p>
+                            <p><strong>Salary:</strong> <span id="previewSalary"></span></p>
+                            <p><strong>Start Date:</strong> <span id="previewStartDate"></span></p>
+                            <p><strong>Reporting To:</strong> <span id="previewManager"></span></p>
+                            
+                            <p id="previewTerms"></p>
+                            
+                            <p>This offer is contingent upon the successful completion of any pre-employment requirements. We look forward to you joining our team and contributing to our success.</p>
+                        </div>
+                        
+                        <div class="letter-signature">
+                            <p>Sincerely,</p>
+                            <p><strong><span id="previewManagerSignature"></span></strong></p>
+                            <p>Hiring Manager</p>
+                            <p>Astrolite Tech Soluctions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 0.75rem; flex-wrap: wrap;">
+                    <button id="previewBtn" class="action-btn view-btn">
+                        <i class="fas fa-eye"></i> Preview Letter
+                    </button>
+                    <button id="generateBtn" class="action-btn generate-btn" disabled>
+                        <i class="fas fa-file-download"></i> Generate PDF
+                    </button>
+                    <button onclick="closeModal()" class="action-btn close-btn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="viewOfferModal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeViewModal()" aria-label="Close view offer modal">×</button>
+                <h2><i class="fas fa-file-contract"></i> Offer Letter</h2>
+                <div id="viewOfferContent" class="offer-letter"></div>
+                <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+                    <button onclick="downloadOfferLetter()" class="action-btn generate-btn">
+                        <i class="fas fa-file-download"></i> Download PDF
+                    </button>
+                    <button onclick="closeViewModal()" class="action-btn close-btn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        // Check if jsPDF and html2canvas are loaded
+        if (!window.jspdf || !window.html2canvas) {
+            console.error('Required libraries (jsPDF or html2canvas) failed to load.');
+            document.getElementById('errorContainer').innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h4>Error</h4>
+                        <p>Failed to load required libraries. Please check your internet connection and try again.</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('errorContainer').classList.remove('hidden');
+        }
+
+        const { jsPDF } = window.jspdf || {};
+        const API_BASE_URL = 'http://localhost:3000';
+        const candidatesTable = document.getElementById('candidatesTable');
+        const searchInput = document.getElementById('searchInput');
+        const totalCandidates = document.getElementById('totalCandidates');
+        const offerLetterModal = document.getElementById('offerLetterModal');
+        const paginationControls = document.getElementById('paginationControls');
+        const errorContainer = document.getElementById('errorContainer');
+        
+        const positionInput = document.getElementById('position');
+        const salaryInput = document.getElementById('salary');
+        const startDateInput = document.getElementById('startDate');
+        const managerNameInput = document.getElementById('managerName');
+        const additionalTermsInput = document.getElementById('additionalTerms');
+        
+        const positionError = document.getElementById('positionError');
+        const salaryError = document.getElementById('salaryError');
+        const startDateError = document.getElementById('startDateError');
+        const managerNameError = document.getElementById('managerNameError');
+        const additionalTermsError = document.getElementById('additionalTermsError');
+        
+        const candidateName = document.getElementById('candidateName');
+        const candidateAddress = document.getElementById('candidateAddress');
+        const offerPosition = document.getElementById('offerPosition');
+        const previewPosition = document.getElementById('previewPosition');
+        const previewSalary = document.getElementById('previewSalary');
+        const previewStartDate = document.getElementById('previewStartDate');
+        const previewManager = document.getElementById('previewManager');
+        const previewTerms = document.getElementById('previewTerms');
+        const previewManagerSignature = document.getElementById('previewManagerSignature');
+        const letterDate = document.getElementById('letterDate');
+        
+        const previewBtn = document.getElementById('previewBtn');
+        const generateBtn = document.getElementById('generateBtn');
+        
+        let candidates = [];
+        let currentCandidate = null;
+
+        // Validation Functions
+        function validateName(value, fieldName) {
+            if (!value) return `${fieldName} is required.`;
+            if (value.length < 4) return `${fieldName} must be at least 4 characters long.`;
+            const nameRegex = /^[A-Z][a-zA-Z]*( [A-Z][a-zA-Z]*)*$/;
+            if (!nameRegex.test(value)) {
+                return `${fieldName} must start with a capital letter, contain only alphabets, and have single spaces between words.`;
+            }
+            return '';
+        }
+
+        function validateSalary(value) {
+            if (!value) return 'Salary is required.';
+            const salaryRegex = /^\d+$/;
+            if (!salaryRegex.test(value)) {
+                return 'Salary must contain only numbers.';
+            }
+            return '';
+        }
+
+        function validateStartDate(value) {
+            if (!value) return 'Start Date is required.';
+            const selectedDate = new Date(value);
+            const today = new Date(2025, 5, 6); // June 06, 2025
+            today.setHours(0, 0, 0, 0);
+            const maxDate = new Date(2025, 8, 6); // September 06, 2025
+            maxDate.setHours(0, 0, 0, 0);
+            
+            if (isNaN(selectedDate)) return 'Invalid date format.';
+            if (selectedDate < today) return 'Start Date cannot be in the past.';
+            if (selectedDate > maxDate) return 'Start Date must be within the next 3 months.';
+            return '';
+        }
+
+        function validateAdditionalTerms(value) {
+            if (!value) return ''; // Optional field
+            const onlyNonAlpha = /^[^a-zA-Z]*$/;
+            if (onlyNonAlpha.test(value)) {
+                return 'Additional Terms must contain at least some alphabetic characters.';
+            }
+            return '';
+        }
+
+        // Real-time validation handler
+        function validateField(input, validator, errorElement, fieldName = '') {
+            const value = input.value.trim();
+            let error = '';
+            
+            if (validator === validateName) {
+                error = validateName(value, fieldName);
+            } else {
+                error = validator(value);
+            }
+            
+            if (error) {
+                errorElement.textContent = error;
+                errorElement.classList.add('visible');
+                input.classList.add('invalid');
+            } else {
+                errorElement.textContent = '';
+                errorElement.classList.remove('visible');
+                input.classList.remove('invalid');
+            }
+            
+            updateGenerateButton();
+            return error;
+        }
+
+        // Enable/disable Generate PDF button
+        function updateGenerateButton() {
+            const positionValid = !validateName(positionInput.value, 'Position');
+            const salaryValid = !validateSalary(salaryInput.value);
+            const startDateValid = !validateStartDate(startDateInput.value);
+            const managerNameValid = !validateName(managerNameInput.value, 'Manager Name');
+            const additionalTermsValid = !validateAdditionalTerms(additionalTermsInput.value);
+            
+            generateBtn.disabled = !(positionValid && salaryValid && startDateValid && managerNameValid && additionalTermsValid);
+        }
+
+        // Sanitization (simplified for demo; use DOMPurify in production)
+        function sanitizeHTML(str) {
+            const allowedTags = ['div', 'p', 'span', 'strong', 'h1', 'br'];
+            const allowedAttributes = ['class', 'id'];
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = str;
+
+            function cleanNode(node) {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    if (!allowedTags.includes(node.tagName.toLowerCase())) {
+                        node.replaceWith(...Array.from(node.childNodes));
+                        return;
+                    }
+                    const attributes = Array.from(node.attributes);
+                    for (const attr of attributes) {
+                        if (!allowedAttributes.includes(attr.name.toLowerCase())) {
+                            node.removeAttribute(attr.name);
+                        }
+                    }
+                    for (const child of Array.from(node.childNodes)) {
+                        cleanNode(child);
+                    }
+                }
+            }
+
+            cleanNode(tempDiv);
+            return tempDiv.innerHTML;
+        }
+
+        function showError(message) {
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h4>Error</h4>
+                        <p>${sanitizeHTML(message)}</p>
+                    </div>
+                </div>
+            `;
+            errorContainer.classList.remove('hidden');
+        }
+
+        function clearError() {
+            errorContainer.innerHTML = '';
+            errorContainer.classList.add('hidden');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.backgroundColor = type === 'success' ? 'var(--success-100)' : 'var(--error-100)';
+            notification.style.color = type === 'success' ? 'var(--success-700)' : 'var(--error-700)';
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                ${sanitizeHTML(message)}
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        async function fetchCandidates(searchTerm = '', page = 1, limit = 6) {
+            try {
+                candidatesTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="loading-message">
+                            <i class="fas fa-spinner"></i> Loading...
+                        </td>
+                    </tr>`;
+                clearError();
+
+                const url = new URL(`${API_BASE_URL}/api/applications`);
+                if (searchTerm) url.searchParams.append('search', sanitizeHTML(searchTerm));
+                url.searchParams.append('status', 'Accepted');
+                url.searchParams.append('page', page);
+                url.searchParams.append('limit', limit);
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' },
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                const contentType = response.headers.get('Content-Type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Non-JSON response:', text.slice(0, 200));
+                    throw new Error(`Expected JSON, received ${contentType || 'unknown'}: ${text.slice(0, 100)}`);
+                }
+
+                if (!response.ok) {
+                    let errorMessage = `HTTP error ${response.status} ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorMessage;
+                    } catch (e) {
+                        errorMessage += ` (Response: ${await response.text().slice(0, 200)})`;
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                if (!data || !Array.isArray(data.applications) || typeof data.total !== 'number') {
+                    throw new Error('Invalid response format');
+                }
+
+                candidates = data.applications;
+                renderCandidates(data.applications, data.total);
+                renderPagination(page, limit, data.total, searchTerm);
+            } catch (error) {
+                console.error('Fetch error:', error);
+                candidatesTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="padding: 1rem; text-align: center;">
+                            Failed to load candidates
+                        </td>
+                    </tr>`;
+                let userMessage = `Error fetching candidates: ${sanitizeHTML(error.message)}. `;
+                if (error.name === 'AbortError') {
+                    userMessage += 'Request timed out. Please check your network connection.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    userMessage += `Ensure the backend server is running at ${API_BASE_URL}.`;
+                } else {
+                    userMessage += 'Verify the API endpoint and response format.';
+                }
+                showError(userMessage);
+            }
+        }
+
+        function renderCandidates(data, total) {
+            candidatesTable.innerHTML = '';
+            totalCandidates.textContent = total;
+
+            if (data.length === 0) {
+                candidatesTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="padding: 1rem; text-align: center;">
+                            No candidates found
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            data.forEach(candidate => {
+                if (!candidate || !candidate.personal_info) {
+                    return;
+                }
+                const row = document.createElement('tr');
+                const hasOfferLetter = candidate.offer_letter && typeof candidate.offer_letter === 'string' && candidate.offer_letter.trim().length > 0;
+
+                row.innerHTML = `
+                    <td style="font-weight: 500;">${sanitizeHTML(candidate.personal_info.name || 'N/A')}</td>
+                    <td>${sanitizeHTML(candidate.personal_info.phone || 'N/A')}</td>
+                    <td>${sanitizeHTML(candidate.personal_info.email || 'N/A')}</td>
+                    <td>${candidate.date ? new Date(candidate.date).toLocaleDateString() : 'N/A'}</td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            ${hasOfferLetter ? `
+                                <button onclick="viewOfferLetter(${candidate.id})" class="action-btn view-btn" aria-label="View offer letter">
+                                    <i class="fas fa-eye"></i> View Offer
+                                </button>
+                            ` : `
+                                <button onclick="generateOfferLetter(${candidate.id})" class="action-btn generate-btn" aria-label="Generate offer letter">
+                                    <i class="fas fa-file-contract"></i> Generate Offer
+                                </button>
+                            `}
+                        </div>
+                    </td>
+                `;
+
+                candidatesTable.appendChild(row);
+            });
+        }
+
+        function renderPagination(page, limit, total, searchTerm) {
+            paginationControls.innerHTML = '';
+            const totalPages = Math.ceil(total / limit);
+
+            if (totalPages <= 1) return;
+
+            const prevButton = document.createElement('button');
+            prevButton.className = 'pagination-button';
+            prevButton.textContent = 'Previous';
+            prevButton.disabled = page === 1;
+            prevButton.onclick = () => fetchCandidates(searchTerm, page - 1, limit);
+
+            const nextButton = document.createElement('button');
+            nextButton.className = 'pagination-button';
+            nextButton.textContent = 'Next';
+            nextButton.disabled = page === totalPages;
+            nextButton.onclick = () => fetchCandidates(searchTerm, page + 1, limit);
+
+            const pageInfo = document.createElement('span');
+            pageInfo.className = 'pagination-info';
+            pageInfo.textContent = `Page ${page} of ${totalPages}`;
+
+            paginationControls.appendChild(prevButton);
+            paginationControls.appendChild(pageInfo);
+            paginationControls.appendChild(nextButton);
+        }
+
+        function generateOfferLetter(id) {
+            const candidate = candidates.find(c => c.id === id);
+            if (!candidate || !candidate.personal_info) {
+                showError('Candidate not found');
+                return;
+            }
+
+            currentCandidate = candidate;
+            
+            positionInput.value = '';
+            salaryInput.value = '';
+            startDateInput.value = '';
+            managerNameInput.value = '';
+            additionalTermsInput.value = '';
+            
+            const defaultStartDate = new Date(2025, 5, 19); // June 19, 2025
+            startDateInput.valueAsDate = defaultStartDate;
+            validateField(startDateInput, validateStartDate, startDateError);
+            
+            positionError.classList.remove('visible');
+            positionInput.classList.remove('invalid');
+            salaryError.classList.remove('visible');
+            salaryInput.classList.remove('invalid');
+            startDateError.classList.remove('visible');
+            startDateInput.classList.remove('invalid');
+            managerNameError.classList.remove('visible');
+            managerNameInput.classList.remove('invalid');
+            additionalTermsError.classList.remove('visible');
+            additionalTermsInput.classList.remove('invalid');
+            clearError();
+            
+            offerLetterModal.style.display = 'flex';
+            document.getElementById('offerLetterPreview').classList.add('hidden');
+            generateBtn.disabled = true;
+        }
+
+        function viewOfferLetter(id) {
+            const candidate = candidates.find(c => c.id === id);
+            if (!candidate || !candidate.offer_letter || typeof candidate.offer_letter !== 'string' || candidate.offer_letter.trim() === '') {
+                showError('Offer letter not found');
+                return;
+            }
+
+            try {
+                const sanitizedContent = sanitizeHTML(candidate.offer_letter);
+                document.getElementById('viewOfferContent').innerHTML = sanitizedContent;
+                currentCandidate = candidate;
+                document.getElementById('viewOfferModal').style.display = 'flex';
+            } catch (error) {
+                showError('Failed to display offer letter: ' + error.message);
+            }
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewOfferContent').innerHTML = '';
+            document.getElementById('viewOfferModal').style.display = 'none';
+            currentCandidate = null;
+        }
+
+        async function downloadOfferLetter() {
+            if (!currentCandidate || !currentCandidate.personal_info || !jsPDF || !html2canvas) {
+                showError('No candidate selected or required libraries not loaded');
+                return;
+            }
+
+            try {
+                const offerLetterElement = document.getElementById('viewOfferContent');
+                if (!offerLetterElement.innerHTML.trim()) {
+                    showError('Offer letter content empty');
+                    return;
+                }
+
+                const canvas = await html2canvas(offerLetterElement, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true
+                });
+
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                const candidateName = sanitizeHTML(currentCandidate.personal_info.name || 'offer').replace(/\s+/g, '_');
+                const filename = `Offer_Letter_${candidateName}.pdf`;
+
+                pdf.save(filename);
+
+                showNotification('Offer letter downloaded successfully');
+            } catch (error) {
+                showError('Failed to generate PDF: ' + error.message);
+            }
+        }
+
+        function previewOfferLetter() {
+            if (!currentCandidate || !currentCandidate.personal_info) {
+                showError('No valid candidate selected');
+                return;
+            }
+
+            const positionErr = validateName(positionInput.value, 'Position');
+            const salaryErr = validateSalary(salaryInput.value);
+            const startDateErr = validateStartDate(startDateInput.value);
+            const managerNameErr = validateName(managerNameInput.value, 'Manager Name');
+            const additionalTermsErr = validateAdditionalTerms(additionalTermsInput.value);
+
+            if (positionErr || salaryErr || startDateErr || managerNameErr || additionalTermsErr) {
+                showError('Please correct the errors in the form.');
+                return;
+            }
+
+            try {
+                candidateName.textContent = sanitizeHTML(currentCandidate.personal_info.name || 'Candidate');
+                candidateAddress.innerHTML = `
+                    ${sanitizeHTML(currentCandidate.personal_info.street || 'N/A')}<br>
+                    ${sanitizeHTML(currentCandidate.personal_info.zipcode || '')}
+                `;
+                
+                offerPosition.textContent = sanitizeHTML(positionInput.value);
+                previewPosition.textContent = sanitizeHTML(positionInput.value);
+                previewSalary.textContent = `$${parseInt(salaryInput.value).toLocaleString()}`;
+                
+                const startDate = new Date(startDateInput.value);
+                previewStartDate.textContent = startDate.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                
+                previewManager.textContent = sanitizeHTML(managerNameInput.value);
+                previewManagerSignature.textContent = sanitizeHTML(managerNameInput.value);
+                
+                const today = new Date(2025, 5, 6);
+                letterDate.textContent = today.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                
+                previewTerms.innerHTML = additionalTermsInput.value ? `<p><strong>Additional Terms:</strong> ${sanitizeHTML(additionalTermsInput.value)}</p>` : '';
+                
+                document.getElementById('offerLetterPreview').classList.remove('hidden');
+            } catch (error) {
+                showError('Failed to preview offer letter: ' + error.message);
+            }
+        }
+
+        async function generatePDF() {
+            if (!currentCandidate || !currentCandidate.personal_info || !jsPDF || !html2canvas) {
+                showError('No candidate selected or required libraries not loaded');
+                return;
+            }
+
+            try {
+                const offerLetterElement = document.getElementById('offerLetterPreview');
+                if (!offerLetterElement.innerHTML.trim()) {
+                    showError('Offer letter preview empty');
+                    return;
+                }
+
+                const canvas = await html2canvas(offerLetterElement, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true
+                });
+
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                const candidateName = sanitizeHTML(currentCandidate.personal_info.name || 'offer').replace(/\s+/g, '_');
+                const filename = `Offer_Letter_${candidateName}.pdf`;
+
+                pdf.save(filename);
+
+                const offerLetterContent = offerLetterElement.innerHTML;
+
+                // Store offer letter in backend
+                const response = await fetch(`${API_BASE_URL}/api/applications/${currentCandidate.id}/offer-letter`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ offer_letter: offerLetterContent })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to store offer letter');
+                }
+
+                const candidateIndex = candidates.findIndex(c => c.id === currentCandidate.id);
+                if (candidateIndex !== -1) {
+                    candidates[candidateIndex].offer_letter = offerLetterContent;
+                    candidates[candidateIndex].offer_letter_date = new Date().toISOString();
+                }
+
+                renderCandidates(candidates, parseInt(totalCandidates.textContent));
+                showNotification('Offer letter generated and stored successfully');
+                closeModal();
+            } catch (error) {
+                showError('Failed to generate or store offer letter: ' + error.message);
+            }
+        }
+
+        function closeModal() {
+            offerLetterModal.style.display = 'none';
+            document.getElementById('offerLetterPreview').classList.add('hidden');
+            currentCandidate = null;
+        }
+
+        // Real-time validation event listeners
+        positionInput.addEventListener('input', () => validateField(positionInput, validateName, positionError, 'Position'));
+        salaryInput.addEventListener('input', () => validateField(salaryInput, validateSalary, salaryError));
+        startDateInput.addEventListener('change', () => validateField(startDateInput, validateStartDate, startDateError));
+        managerNameInput.addEventListener('input', () => validateField(managerNameInput, validateName, managerNameError, 'Manager Name'));
+        additionalTermsInput.addEventListener('input', () => validateField(additionalTermsInput, validateAdditionalTerms, additionalTermsError));
+
+        // Search input handler
+        searchInput.addEventListener('input', (e) => {
+            fetchCandidates(sanitizeHTML(e.target.value.trim()));
+        });
+
+        // Button event listeners
+        previewBtn.addEventListener('click', previewOfferLetter);
+        generateBtn.addEventListener('click', generatePDF);
+
+        // Initialize
+        fetchCandidates();
+    </script>
+</body>
+</html>

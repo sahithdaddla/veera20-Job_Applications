@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Offer Letter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --primary-50: #eef2ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --secondary-color: #06b6d4;
+            --secondary-light: #22d3ee;
+            --secondary-dark: #0891b2;
+            
+            --dark-50: #f8fafc;
+            --dark-100: #f1f5f9;
+            --dark-200: #e2e8f0;
+            --dark-300: #cbd5e1;
+            --dark-400: #94a3b8;
+            --dark-500: #64748b;
+            --dark-600: #475569;
+            --dark-700: #334155;
+            --dark-800: #1e293b;
+            --dark-900: #0f172a;
+            
+            --success-100: #dcfce7;
+            --success-200: #bbf7d0;
+            --success-500: #22c55e;
+            --success-700: #15803d;
+            
+            --error-100: #fee2e2;
+            --error-200: #fecaca;
+            --error-500: #ef4444;
+            --error-700: #b91c1c;
+            
+            --warning-100: #fef3c7;
+            --warning-200: #fde68a;
+            --warning-500: #f59e0b;
+            --warning-700: #b45309;
+            
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            
+            --surface-0: #ffffff;
+            --surface-50: #f9fafb;
+            --surface-100: #f3f4f6;
+            --surface-200: #e5e7eb;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            
+            --radius-sm: 0.25rem;
+            --radius: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background-color: var(--surface-50);
+            min-height: 100vh;
+            color: var(--dark-800);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+
+        .header-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-title i {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-md);
+            padding: 1.75rem;
+            border-radius: var(--radius-xl);
+            margin-bottom: 2rem;
+            transition: var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+
+        .glass-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-700);
+        }
+
+        .card-header i {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-700);
+            font-size: 0.875rem;
+        }
+
+        .form-label i {
+            font-size: 0.9rem;
+            color: var(--primary-500);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--surface-200);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: var(--transition);
+            background-color: var(--surface-0);
+            box-shadow: var(--shadow-sm);
+            padding-left: 2.5rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .form-control.invalid {
+            border-color: var(--error-500);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.5rem;
+            color: var(--dark-400);
+            font-size: 0.9rem;
+        }
+
+        .field-error {
+            font-size: 0.75rem;
+            color: var(--error-500);
+            margin-top: 0.25rem;
+            display: none;
+            padding-left: 1.5rem;
+        }
+
+        .field-error.visible {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .field-error i {
+            font-size: 0.7rem;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.8125rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .action-btn i {
+            font-size: 0.875rem;
+        }
+
+        .view-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .view-btn:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+        }
+
+        .view-btn i {
+            color: white;
+        }
+
+        .generate-btn {
+            background-color: var(--success-500);
+            color: white;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            background-color: var(--success-700);
+        }
+
+        .generate-btn i {
+            color: white;
+        }
+
+        .close-btn {
+            background-color: var(--surface-100);
+            color: var(--dark-700);
+        }
+
+        .close-btn:hover {
+            background-color: var(--surface-200);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--surface-0);
+            border-radius: var(--radius-xl);
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            padding: 2rem;
+            animation: slideUp 0.3s ease-out;
+            position: relative;
+            border: 1px solid var(--surface-200);
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--surface-200);
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modal-content h2 i {
+            font-size: 1.25rem;
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-400);
+            transition: var(--transition);
+            background: none;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-content .close:hover {
+            color: var(--dark-600);
+            background-color: var(--surface-100);
+            transform: rotate(90deg);
+        }
+
+        .offer-letter {
+            background-color: white;
+            border: 1px solid var(--surface-200);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .offer-letter::before {
+            content: '\f15c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 5rem;
+            opacity: 0.05;
+            color: var(--primary-color);
+            z-index: 0;
+        }
+
+        .offer-letter-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-message {
+            background-color: var(--error-100);
+            border-left: 4px solid var(--error-500);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .error-message i {
+            color: var(--error-500);
+            font-size: 1.25rem;
+        }
+
+        .error-message h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.9375rem;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9375rem;
+        }
+
+        .loading-message i {
+            animation: spin 1s linear infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+            max-width: 320px;
+        }
+
+        .notification i {
+            font-size: 1.25rem;
+        }
+
+        .success-notification {
+            background-color: var(--success-100);
+            color: var(--success-700);
+            border-left: 4px solid var(--success-500);
+        }
+
+        .error-notification {
+            background-color: var(--error-100);
+            color: var(--error-700);
+            border-left: 4px solid var(--error-500);
+        }
+
+        .actions-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-100);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-300);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-400);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                height: 95vh;
+                padding: 1.25rem;
+            }
+            
+            .action-btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.75rem;
+            }
+            
+            .offer-letter {
+                padding: 1.25rem;
+            }
+            
+            .glass-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">
+                <i class="fas fa-file-contract"></i> View Offer Letter
+            </h1>
+        </header>
+
+        <div id="errorContainer" class="hidden"></div>
+
+        <div class="glass-card">
+            <div class="card-header">
+                <i class="fas fa-user-edit"></i>
+                <h2>Enter Candidate Details</h2>
+            </div>
+            
+            <div class="form-group">
+                <label for="candidateName" class="form-label">
+                    <i class="fas fa-user"></i> Candidate Name
+                </label>
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="candidateName" class="form-control" placeholder="e.g., John Doe" required pattern="[A-Z][a-zA-Z]*( [A-Z][a-zA-Z]*)*">
+                <div id="nameError" class="field-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span class="error-text"></span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="candidateEmail" class="form-label">
+                    <i class="fas fa-envelope"></i> Candidate Email
+                </label>
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="candidateEmail" class="form-control" placeholder="e.g., john.doe@example.com" required>
+                <div id="emailError" class="field-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span class="error-text"></span>
+                </div>
+            </div>
+            
+            <div class="actions-container">
+                <button id="fetchOfferBtn" class="action-btn view-btn">
+                    <i class="fas fa-search"></i> Fetch Offer Letter
+                </button>
+            </div>
+        </div>
+
+        <div id="viewOfferModal" class="modal">
+            <div class="modal-content">
+                <button class="close" onclick="closeViewModal()" aria-label="Close view offer modal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2><i class="fas fa-file-contract"></i> Offer Letter</h2>
+                <div id="viewOfferContent" class="offer-letter">
+                    <div class="offer-letter-content"></div>
+                </div>
+                <div class="actions-container">
+                    <button onclick="downloadOfferLetter()" class="action-btn generate-btn">
+                        <i class="fas fa-file-download"></i> Download PDF
+                    </button>
+                    <button onclick="closeViewModal()" class="action-btn close-btn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        if (!window.jspdf || !window.html2canvas) {
+            console.error('Required libraries (jsPDF or html2canvas) failed to load.');
+            document.getElementById('errorContainer').innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h4>Error</h4>
+                        <p>Failed to load required libraries. Please check your internet connection and try again.</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('errorContainer').classList.remove('hidden');
+        }
+
+        const { jsPDF } = window.jspdf || {};
+        const API_BASE_URL = 'http://localhost:3000';
+        const candidateNameInput = document.getElementById('candidateName');
+        const candidateEmailInput = document.getElementById('candidateEmail');
+        const nameError = document.getElementById('nameError').querySelector('.error-text');
+        const emailError = document.getElementById('emailError').querySelector('.error-text');
+        const fetchOfferBtn = document.getElementById('fetchOfferBtn');
+        const errorContainer = document.getElementById('errorContainer');
+        let currentOfferLetter = null;
+
+        function sanitizeHTML(str) {
+            const allowedTags = ['div', 'p', 'span', 'strong', 'h1', 'br'];
+            const allowedAttributes = ['class', 'id'];
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = str;
+
+            function cleanNode(node) {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    if (!allowedTags.includes(node.tagName.toLowerCase())) {
+                        node.replaceWith(...Array.from(node.childNodes));
+                        return;
+                    }
+                    const attributes = Array.from(node.attributes);
+                    for (const attr of attributes) {
+                        if (!allowedAttributes.includes(attr.name.toLowerCase())) {
+                            node.removeAttribute(attr.name);
+                        }
+                    }
+                    for (const child of Array.from(node.childNodes)) {
+                        cleanNode(child);
+                    }
+                }
+            }
+
+            cleanNode(tempDiv);
+            return tempDiv.innerHTML;
+        }
+
+        function showError(message) {
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h4>Error</h4>
+                        <p>${sanitizeHTML(message)}</p>
+                    </div>
+                </div>
+            `;
+            errorContainer.classList.remove('hidden');
+        }
+
+        function clearError() {
+            errorContainer.innerHTML = '';
+            errorContainer.classList.add('hidden');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}-notification`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${sanitizeHTML(message)}</span>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function validateName(value) {
+            if (!value) return 'Name is required';
+            if (value.length < 4) return 'Name must be at least 4 characters';
+            const nameRegex = /^[A-Z][a-zA-Z]*( [A-Z][a-zA-Z]*)*$/;
+            if (!nameRegex.test(value)) {
+                return 'Name must start with capital letter and contain only letters';
+            }
+            return '';
+        }
+
+        function validateEmail(value) {
+            if (!value) return 'Email is required';
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) return 'Invalid email format';
+            return '';
+        }
+
+        function validateField(input, validator, errorElement) {
+            const value = input.value.trim();
+            const error = validator(value);
+            
+            if (error) {
+                errorElement.textContent = error;
+                input.parentElement.querySelector('.field-error').classList.add('visible');
+                input.classList.add('invalid');
+            } else {
+                errorElement.textContent = '';
+                input.parentElement.querySelector('.field-error').classList.remove('visible');
+                input.classList.remove('invalid');
+            }
+            
+            fetchOfferBtn.disabled = validateName(candidateNameInput.value) || validateEmail(candidateEmailInput.value);
+            return error;
+        }
+
+        async function fetchOfferLetter() {
+            const name = candidateNameInput.value.trim();
+            const email = candidateEmailInput.value.trim().toLowerCase();
+            
+            if (validateName(name) || validateEmail(email)) {
+                showError('Please correct the errors in the form');
+                return;
+            }
+
+            try {
+                clearError();
+                fetchOfferBtn.disabled = true;
+                fetchOfferBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fetching...';
+
+                const url = new URL(`${API_BASE_URL}/api/offer-letter`);
+                url.searchParams.append('name', sanitizeHTML(name));
+                url.searchParams.append('email', sanitizeHTML(email));
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' },
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                const contentType = response.headers.get('Content-Type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Non-JSON response:', text.slice(0, 200));
+                    throw new Error(`Expected JSON, received ${contentType || 'unknown'}: ${text.slice(0, 100)}`);
+                }
+
+                if (!response.ok) {
+                    let errorMessage = `HTTP error ${response.status} ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorMessage;
+                    } catch {
+                        errorMessage += ` (Response: ${await response.text().slice(0, 200)})`;
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                if (!data || !data.offer_letter || !data.personal_info) {
+                    throw new Error('Invalid response format');
+                }
+
+                currentOfferLetter = data;
+                const sanitizedContent = sanitizeHTML(data.offer_letter);
+                document.querySelector('.offer-letter-content').innerHTML = sanitizedContent;
+                document.getElementById('viewOfferModal').style.display = 'flex';
+                showNotification('Offer letter retrieved successfully');
+            } catch (error) {
+                console.error('Fetch error:', error);
+                let userMessage = `Error fetching offer letter: ${sanitizeHTML(error.message)}. `;
+                if (error.name === 'AbortError') {
+                    userMessage += 'Request timed out. Please check your network connection.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    userMessage += `Ensure the backend server is running at ${API_BASE_URL}.`;
+                } else if (error.message.includes('No offer letter found')) {
+                    userMessage = 'No offer letter found for the provided name and email.';
+                } else {
+                    userMessage += 'Verify the name and email or contact HR.';
+                }
+                showError(userMessage);
+            } finally {
+                fetchOfferBtn.disabled = false;
+                fetchOfferBtn.innerHTML = '<i class="fas fa-search"></i> Fetch Offer Letter';
+            }
+        }
+
+        async function downloadOfferLetter() {
+            if (!currentOfferLetter || !currentOfferLetter.personal_info || !jsPDF || !html2canvas) {
+                showError('No offer letter selected or required libraries not loaded');
+                return;
+            }
+
+            try {
+                const offerLetterElement = document.querySelector('.offer-letter-content');
+                if (!offerLetterElement.innerHTML.trim()) {
+                    showError('Offer letter content empty');
+                    return;
+                }
+
+                const generateBtn = document.querySelector('.generate-btn');
+                const originalText = generateBtn.innerHTML;
+                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                generateBtn.disabled = true;
+
+                const canvas = await html2canvas(offerLetterElement, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true
+                });
+
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                const candidateName = sanitizeHTML(currentOfferLetter.personal_info.name || 'offer').replace(/\s+/g, '_');
+                const filename = `Offer_Letter_${candidateName}.pdf`;
+
+                pdf.save(filename);
+
+                showNotification('Offer letter downloaded successfully');
+            } catch (error) {
+                showError('Failed to generate PDF: ' + error.message);
+            } finally {
+                const generateBtn = document.querySelector('.generate-btn');
+                generateBtn.innerHTML = '<i class="fas fa-file-download"></i> Download PDF';
+                generateBtn.disabled = false;
+            }
+        }
+
+        function closeViewModal() {
+            document.querySelector('.offer-letter-content').innerHTML = '';
+            document.getElementById('viewOfferModal').style.display = 'none';
+            currentOfferLetter = null;
+        }
+
+        candidateNameInput.addEventListener('input', () => validateField(candidateNameInput, validateName, nameError));
+        candidateEmailInput.addEventListener('input', () => validateField(candidateEmailInput, validateEmail, emailError));
+        fetchOfferBtn.addEventListener('click', fetchOfferLetter);
+        
+        // Initialize button disabled state
+        fetchOfferBtn.disabled = true;
+    </script>
+</body>
+</html>
