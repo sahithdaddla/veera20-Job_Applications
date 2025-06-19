@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retrieve Offer Letter</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Retrieve Offer Letter | Astrolite Tech Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4361ee;
             --primary-light: #e0e7ff;
             --secondary-color: #3f37c9;
+            --accent-color: #7209b7;
             --success-color: #10b981;
             --success-light: #d1fae5;
             --warning-color: #f59e0b;
@@ -40,9 +41,6 @@
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             background-image: 
                 radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
@@ -50,12 +48,13 @@
         }
 
         .container {
-            max-width: 640px;
+            max-width: 100%;
             width: 100%;
-            padding: 2rem;
+            padding: 0;
         }
 
-        .card {
+        /* Form Card (initial state) */
+        .form-card {
             background: var(--bg-white);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-md);
@@ -63,16 +62,18 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            max-width: 640px;
+            margin: 2rem auto;
         }
 
-        .card::before {
+        .form-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 6px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
         .header-title {
@@ -167,31 +168,104 @@
             transform: translateY(0);
         }
 
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #5a189a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
         .btn-block {
             width: 100%;
         }
 
-        .result-section {
-            margin-top: 2rem;
+        /* Results Page (full page) */
+        .results-page {
             display: none;
-            animation: fadeIn 0.5s ease-out;
+            width: 100%;
+            min-height: 100vh;
+            padding: 2rem;
+            background-color: var(--bg-light);
+            animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .results-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .company-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .company-logo i {
+            font-size: 2.5rem;
+        }
+
+        .welcome-message {
+            font-size: 1.25rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .results-content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .results-content {
+                grid-template-columns: 1fr;
+            }
         }
 
         .section-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
         }
 
         .section-title::after {
@@ -199,8 +273,8 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 40px;
-            height: 3px;
+            width: 60px;
+            height: 4px;
             background: var(--primary-color);
             border-radius: 2px;
         }
@@ -209,17 +283,16 @@
             color: var(--primary-color);
         }
 
-        .info-card {
+        /* Application Details */
+        .application-details {
             background-color: var(--bg-white);
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary-color);
+            box-shadow: var(--shadow-sm);
         }
 
         .info-item {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             display: flex;
             gap: 1rem;
         }
@@ -251,102 +324,269 @@
             font-weight: 500;
         }
 
-        .file-card {
+        /* Offer Letter Section */
+        .offer-letter-section {
             background-color: var(--bg-white);
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
             padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .offer-letter-card {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+                .offer-letter-main-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+                .offer-letter-points {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+                .offer-letter-point {
+            position: relative;
+            margin-bottom: 0.75rem;
+            color: var(--text-medium);
+            font-size: 0.95rem;
+        }
+                .offer-letter-point:before {
+            content: "•";
+            position: absolute;
+            left: -1rem;
+            color: var(--primary-color);
+            font-weight: bold;
         }
 
-        .file-list {
+        .offer-letter-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .offer-letter-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .offer-letter-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .offer-letter-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .offer-letter-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .offer-letter-details {
+            flex-grow: 1;
+        }
+
+        .offer-letter-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .offer-letter-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .offer-letter-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .offer-letter-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .preview-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .preview-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Company Highlights */
+        .highlights-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.05) 100%);
+            border-radius: var(--border-radius);
+            padding: 2rem;
             margin-top: 1rem;
         }
 
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: var(--bg-light);
+        .highlight-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .highlight-item {
+            padding: 1.5rem;
+            background: white;
             border-radius: 8px;
-            margin-bottom: 0.75rem;
-            transition: var(--transition);
-        }
-
-        .file-item:hover {
-            transform: translateX(4px);
             box-shadow: var(--shadow-sm);
-        }
-
-        .file-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            flex-grow: 1;
-        }
-
-        .file-icon {
-            color: var(--primary-color);
-            font-size: 1.25rem;
-        }
-
-        .file-name {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
+            gap: 1rem;
             transition: var(--transition);
-            flex-grow: 1;
         }
 
-        .file-name:hover {
-            color: var(--secondary-color);
-            text-decoration: underline;
+        .highlight-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
         }
 
-        .file-size {
-            color: var(--text-light);
-            font-size: 0.85rem;
-            margin-left: auto;
-            padding-right: 1rem;
-        }
-
-        .file-actions {
+        .highlight-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
-            gap: 0.75rem;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
-        .file-action-btn {
-            background: none;
-            border: none;
-            color: var(--text-medium);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1.1rem;
-            padding: 0.25rem;
-            border-radius: 4px;
-        }
-
-        .file-action-btn:hover {
+        .highlight-icon.blue {
+            background-color: #e0e7ff;
             color: var(--primary-color);
-            background-color: var(--primary-light);
         }
 
-        .file-action-btn.download {
+        .highlight-icon.purple {
+            background-color: #f3e8ff;
+            color: var(--accent-color);
+        }
+
+        .highlight-icon.green {
+            background-color: #d1fae5;
             color: var(--success-color);
         }
 
-        .file-action-btn.download:hover {
-            background-color: var(--success-light);
+        .highlight-icon.orange {
+            background-color: #ffedd5;
+            color: var(--warning-color);
         }
 
+        .highlight-text {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Next Steps */
+        .next-steps {
+            grid-column: 1 / -1;
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            margin-top: 1rem;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        .step-content {
+            flex-grow: 1;
+            padding-top: 4px;
+        }
+
+        /* Empty States */
         .empty-state {
             text-align: center;
             padding: 2rem;
             color: var(--text-light);
+            grid-column: 1 / -1;
         }
 
         .empty-state i {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--primary-light);
         }
@@ -392,37 +632,70 @@
             font-size: 1.25rem;
         }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Responsive adjustments */
-        @media (max-width: 640px) {
-            .container {
-                padding: 1.5rem;
+        @media (max-width: 768px) {
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
             }
             
-            .card {
-                padding: 1.75rem;
+            .back-btn {
+                align-self: flex-end;
+            }
+            
+            .offer-letter-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .offer-letter-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-card, .results-page {
+                padding: 1.5rem;
             }
             
             .header-title {
                 font-size: 1.5rem;
             }
             
-            .file-item {
-                flex-wrap: wrap;
+            .offer-letter-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .offer-letter-meta {
+                flex-direction: column;
                 gap: 0.5rem;
             }
             
-            .file-size {
-                margin-left: 0;
-                padding-right: 0;
+            .offer-letter-actions {
+                flex-direction: column;
+            }
+            
+            .download-btn, .preview-btn {
                 width: 100%;
-                text-align: right;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Form Section (shown initially) -->
     <div class="container">
-        <div class="card">
+        <div class="form-card" id="formCard">
             <h1 class="header-title">
                 <i class="fas fa-file-contract"></i> Retrieve Offer Letter
             </h1>
@@ -443,24 +716,118 @@
                     <i class="fas fa-search"></i> Retrieve Details
                 </button>
             </form>
-            <div id="resultSection" class="result-section">
-                <h2 class="section-title"><i class="fas fa-user-tie"></i> Application Details</h2>
-                <div id="applicationDetails"></div>
-                <div class="file-card">
-                    <h3 class="section-title"><i class="fas fa-file-download"></i> Offer Letters</h3>
-                    <div id="offerLetterList" class="file-list"></div>
+        </div>
+    </div>
+    
+    <!-- Results Page (shown after submission) -->
+    <div id="resultsPage" class="results-page">
+        <div class="results-container">
+            <div class="results-header">
+                <div>
+                    <div class="company-logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>Astrolite Tech Solutions</span>
+                    </div>
+                    <p class="welcome-message">Welcome to the team! We're excited to have you on board.</p>
+                </div>
+                <button id="backBtn" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+            
+            <div class="results-content">
+                <!-- Application Details Column -->
+                <div class="application-details">
+                    <h2 class="section-title">
+                        <i class="fas fa-user-tie"></i> Your Details
+                    </h2>
+                    <div id="applicationDetails"></div>
+                </div>
+                
+                <!-- Offer Letter Column -->
+                <div class="offer-letter-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-signature"></i> Your Offer Letter
+                    </h2>
+                    <div id="offerLetterContainer"></div>
+                </div>
+                
+                <!-- Company Highlights -->
+                <div class="highlights-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-star"></i> Why Join Astrolite?
+                    </h2>
+                    <div class="highlight-container">
+                        <div class="highlight-item">
+                            <div class="highlight-icon blue">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="highlight-text">Cutting-edge technology projects that challenge and inspire</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon purple">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="highlight-text">Global client base with international opportunities</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon green">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="highlight-text">Fast-track career growth and development programs</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon orange">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="highlight-text">Collaborative culture with top industry talent</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Next Steps -->
+                <div class="next-steps">
+                    <h2 class="section-title">
+                        <i class="fas fa-list-check"></i> Next Steps
+                    </h2>
+                    <div class="steps-container">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Download your offer letter</strong>
+                                <p>Review all the details including your position, compensation, and start date</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Sign and return</strong>
+                                <p>Sign the document and return it to HR within 7 business days</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Prepare for onboarding</strong>
+                                <p>Check your email for onboarding instructions and required documents</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 <script>
     // DOM Elements
     const retrieveForm = document.getElementById('retrieveForm');
     const nameInput = document.getElementById('nameInput');
     const emailInput = document.getElementById('emailInput');
-    const resultSection = document.getElementById('resultSection');
+    const formCard = document.getElementById('formCard');
+    const resultsPage = document.getElementById('resultsPage');
+    const backBtn = document.getElementById('backBtn');
     const applicationDetails = document.getElementById('applicationDetails');
-    const offerLetterList = document.getElementById('offerLetterList');
+    const offerLetterContainer = document.getElementById('offerLetterContainer');
 
     // Constants
     const BASE_URL = 'http://localhost:3000';
@@ -548,14 +915,17 @@
             const application = data.applications[0];
             renderApplicationDetails(application);
             await fetchOfferLetters(application.id);
-            resultSection.style.display = 'block';
             
-            // Smooth scroll to results
-            resultSection.scrollIntoView({ behavior: 'smooth' });
+            // Hide form and show results page
+            formCard.style.display = 'none';
+            resultsPage.style.display = 'block';
+            document.body.style.backgroundColor = '#f9fafb';
+            
+            // Scroll to top of results
+            window.scrollTo(0, 0);
         } catch (error) {
             console.error('Error fetching application:', error);
             showNotification(error.message, 'error');
-            resultSection.style.display = 'none';
         }
     }
 
@@ -563,41 +933,39 @@
     function renderApplicationDetails(app) {
         const { personal_info, date, status } = app;
         applicationDetails.innerHTML = `
-            <div class="info-card">
-                <div class="info-item">
-                    <i class="fas fa-signature info-icon"></i>
-                    <div class="info-content">
-                        <div class="info-label">Full Name</div>
-                        <div class="info-value">${personal_info.name}</div>
-                    </div>
+            <div class="info-item">
+                <i class="fas fa-signature info-icon"></i>
+                <div class="info-content">
+                    <div class="info-label">Full Name</div>
+                    <div class="info-value">${personal_info.name}</div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-envelope info-icon"></i>
-                    <div class="info-content">
-                        <div class="info-label">Email</div>
-                        <div class="info-value">${personal_info.email}</div>
-                    </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope info-icon"></i>
+                <div class="info-content">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">${personal_info.email}</div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-phone info-icon"></i>
-                    <div class="info-content">
-                        <div class="info-label">Phone</div>
-                        <div class="info-value">${personal_info.phone}</div>
-                    </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone info-icon"></i>
+                <div class="info-content">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value">${personal_info.phone}</div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-calendar-day info-icon"></i>
-                    <div class="info-content">
-                        <div class="info-label">Submission Date</div>
-                        <div class="info-value">${formatDate(date)}</div>
-                    </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-calendar-day info-icon"></i>
+                <div class="info-content">
+                    <div class="info-label">Submission Date</div>
+                    <div class="info-value">${formatDate(date)}</div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-tag info-icon"></i>
-                    <div class="info-content">
-                        <div class="info-label">Status</div>
-                        <div class="info-value">${status}</div>
-                    </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-tag info-icon"></i>
+                <div class="info-content">
+                    <div class="info-label">Status</div>
+                    <div class="info-value" style="color: var(--success-color); font-weight: 600;">${status}</div>
                 </div>
             </div>
         `;
@@ -615,10 +983,11 @@
         } catch (error) {
             console.error('Error fetching offer letters:', error);
             showNotification('Failed to fetch offer letters: ' + error.message, 'error');
-            offerLetterList.innerHTML = `
+            offerLetterContainer.innerHTML = `
                 <div class="empty-state">
-                    <i class="fas fa-info-circle"></i>
+                    <i class="fas fa-file-download"></i>
                     <p>No offer letters found</p>
+                    <p style="margin-top: 1rem;">Please contact HR if you believe this is an error</p>
                 </div>
             `;
         }
@@ -626,12 +995,13 @@
 
     // Render Offer Letters
     function renderOfferLetters(files, applicationId) {
-        offerLetterList.innerHTML = '';
+        offerLetterContainer.innerHTML = '';
         if (files.length === 0) {
-            offerLetterList.innerHTML = `
+            offerLetterContainer.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-file-download"></i>
                     <p>No offer letters uploaded yet</p>
+                    <p style="margin-top: 1rem;">Our HR team will contact you shortly with further instructions</p>
                 </div>
             `;
             return;
@@ -639,25 +1009,104 @@
 
         files.forEach((file) => {
             const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
+            fileItem.className = 'offer-letter-card';
             fileItem.innerHTML = `
-                <div class="file-info">
-                    <i class="fas fa-${getFileIcon(file.name)} file-icon"></i>
-                    <a href="${file.path}" class="file-name" target="_blank">${file.name}</a>
-                    <span class="file-size">${formatFileSize(file.size)}</span>
+                <div class="offer-letter-info">
+                    <div class="offer-letter-icon">
+                        <i class="fas fa-${getFileIcon(file.name)}"></i>
+                    </div>
+                    <div class="offer-letter-details">
+                        <div class="offer-letter-name">${file.name}</div>
+                        <div class="offer-letter-meta">
+                            <div class="offer-letter-meta-item">
+                                <i class="fas fa-file"></i>
+                                <span>${file.name.split('.').pop().toUpperCase()} Document</span>
+                            </div>
+                            <div class="offer-letter-meta-item">
+                                <i class="fas fa-database"></i>
+                                <span>${formatFileSize(file.size)}</span>
+                            </div>
+                            <div class="offer-letter-meta-item">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>${formatDate(file.uploadDate || new Date().toISOString())}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="file-actions">
+                <div class="offer-letter-actions">
+                    <a href="${file.path}" class="preview-btn" target="_blank">
+                        <i class="fas fa-eye"></i> Preview
+                    </a>
                     <a href="${BASE_URL}/api/applications/${applicationId}/files/${file.id}/download" 
-                       download 
-                       title="Download" 
-                       class="file-action-btn download">
-                        <i class="fas fa-download"></i>
+                       class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
                     </a>
                 </div>
             `;
-            offerLetterList.appendChild(fileItem);
+            offerLetterContainer.appendChild(fileItem);
         });
     }
+            // Updated Render Offer Letters function
+        function renderOfferLetters(files, applicationId) {
+            offerLetterContainer.innerHTML = '';
+            if (files.length === 0) {
+                offerLetterContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-file-download"></i>
+                        <p>No offer letters found</p>
+                        <p style="margin-top: 1rem;">Please contact HR if you believe this is an error</p>
+                    </div>
+                `;
+                return;
+            }
+
+            files.forEach((file) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'offer-letter-card';
+                fileItem.innerHTML = `
+                    <div class="offer-letter-main-content">
+                        <div class="offer-letter-icon">
+                            <i class="fas fa-${getFileIcon(file.name)}"></i>
+                        </div>
+                        <div class="offer-letter-details">
+                            <div class="offer-letter-name">${file.name}</div>
+                            <div class="offer-letter-meta">
+                                <div class="offer-letter-meta-item">
+                                    <i class="fas fa-file"></i>
+                                    <span>${file.name.split('.').pop().toUpperCase()} Document</span>
+                                </div>
+                                <div class="offer-letter-meta-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>${formatFileSize(file.size)}</span>
+                                </div>
+                                <div class="offer-letter-meta-item">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span>${formatDate(file.uploadDate || new Date().toISOString())}</span>
+                                </div>
+                            </div>
+                            <div class="offer-letter-points">
+                                <div class="offer-letter-point">Please review all details including position, compensation, and benefits</div>
+                                <div class="offer-letter-point">Check the start date and any contingencies mentioned</div>
+                                <div class="offer-letter-point">Ensure your personal information is correct</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offer-letter-actions">
+                        <a href="${file.path}" class="preview-btn" target="_blank">
+                            <i class="fas fa-eye"></i> Preview
+                        </a>
+                        <a href="${BASE_URL}/api/applications/${applicationId}/files/${file.id}/download" 
+                           class="download-btn" download>
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                        <button class="preview-btn">
+                            <i class="fas fa-question-circle"></i> Need Help?
+                        </button>
+                    </div>
+                `;
+                offerLetterContainer.appendChild(fileItem);
+            });
+        }
 
     // Form Submission
     retrieveForm.addEventListener('submit', (e) => {
@@ -669,6 +1118,13 @@
         } else {
             showNotification('Please enter both name and email', 'error');
         }
+    });
+
+    // Back Button
+    backBtn.addEventListener('click', () => {
+        resultsPage.style.display = 'none';
+        formCard.style.display = 'block';
+        window.scrollTo(0, 0);
     });
 </script>
 </body>
