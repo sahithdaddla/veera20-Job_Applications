@@ -1056,6 +1056,47 @@ td {
             color: var(--error-500);
             cursor: pointer;
         }
+        .notification {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+  max-width: 400px;
+  color: white;
+}
+
+.notification.success {
+  background-color: var(--success-600);
+  border-left: 4px solid var(--success-400);
+}
+
+.notification.error {
+  background-color: var(--error-600);
+  border-left: 4px solid var(--error-400);
+}
+
+.notification.warning {
+  background-color: var(--warning-600);
+  border-left: 4px solid var(--warning-400);
+}
+
+.notification.info {
+  background-color: var(--secondary-600);
+  border-left: 4px solid var(--secondary-400);
+}
+
+.notification i {
+  font-size: 1.25rem;
+}
 </style>
 </head>
 <body>
@@ -1195,17 +1236,21 @@ td {
   let currentApplicationId = null;
   let selectedFiles = [];
 
-  // Utility Functions
-  function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-        ${message}
-    `;
-    document.body.appendChild(notification);
-    setTimeout(() => notification.remove(), 5000);
-  }
+function showNotification(message, type = 'success') {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.innerHTML = `
+    <i class="fas fa-${
+      type === 'success' ? 'check-circle' : 
+      type === 'error' ? 'exclamation-circle' : 
+      type === 'warning' ? 'exclamation-triangle' : 
+      'info-circle'
+    }"></i>
+    ${message}
+  `;
+  document.body.appendChild(notification);
+  setTimeout(() => notification.remove(), 5000);
+}
 
   function showError(message) {
     errorContainer.innerHTML = `
