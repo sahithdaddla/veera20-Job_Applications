@@ -11,7 +11,7 @@ const sharp = require('sharp');
 const PDFDocument = require('pdfkit');
 
 const app = express();
-const port = 3068;
+const port = 3075;
 
 // PostgreSQL configuration
 const pool = new Pool({
