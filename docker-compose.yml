@@ -18,7 +18,7 @@ services:
     build: ./Backend
     container_name: jobapps-backend
     ports:
-      - "3067:3067"
+      - "3075:3075"
     depends_on:
       - postgres
     environment:
@@ -33,7 +33,7 @@ services:
     build: ./Frontend
     container_name: jobapps-frontend
     ports:
-      - "8247:80"
+      - "8267:80"
     depends_on:
       - backend
 
@@ -41,7 +41,7 @@ services:
     build: ./HR
     container_name: jobapps-hr
     ports:
-      - "8248:80"
+      - "8268:80"
     depends_on:
       - backend
 
@@ -49,7 +49,7 @@ services:
     build: ./View_offer
     container_name: jobapps-view-offer
     ports:
-      - "8249:80"
+      - "8269:80"
     depends_on:
       - backend
 
